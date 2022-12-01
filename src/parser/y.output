@@ -1,0 +1,49 @@
+
+state 0
+	$accept: .connect $end 
+	connect: .    (1)
+
+	CONNECT  shift 2
+	.  reduce 1 (src line 30)
+
+	connect  goto 1
+
+state 1
+	$accept:  connect.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	connect:  CONNECT.ID EOL 
+
+	ID  shift 3
+	.  error
+
+
+state 3
+	connect:  CONNECT ID.EOL 
+
+	EOL  shift 4
+	.  error
+
+
+state 4
+	connect:  CONNECT ID EOL.    (2)
+
+	.  reduce 2 (src line 32)
+
+
+15 terminals, 2 nonterminals
+3 grammar rules, 5/16000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+51 working sets used
+memory: parser 0/240000
+0 extra closures
+3 shift entries, 1 exceptions
+1 goto entries
+0 entries saved by goto default
+Optimizer space used: output 4/240000
+4 table entries, 0 zero
+maximum spread: 15, maximum offset: 15
