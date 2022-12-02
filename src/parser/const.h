@@ -15,4 +15,6 @@ enum {
 	RPAREN = 266, // )
 	ASSIGN = 267, // =
 	BACK_QUOTE = 300, // `
+
+	STR = 401,
 };

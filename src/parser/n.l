@@ -7,18 +7,12 @@
 %{
 #include "const.h"
 %}
-
 %%
 
-[c][o][n][n][e][c][t]    { return CONNECT; }
-
-`  {return BACK_QUOTE;}
-= 	{return ASSIGN;}
-[_a-zA-Z]+ { return ID; }
-[0-9]+     { return NUMBER; }
-
-\n     { return EOL; }
-[ \t]  { /* ignore whitespace */ }
+L?\"(\\.|[^\\"\n])*\"	{
+	printf("%s\n", yytext);
+	return STR;
+}
 
 %%
 

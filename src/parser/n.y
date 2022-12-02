@@ -15,26 +15,16 @@ var idValueMap = map[string]interface{}{}
 %}
 
 %union {
-	value int
 	id    string
 }
 
-%token <value> NUMBER
-%token <id>    ID
-
-%token ADD SUB MUL DIV ABS CONNECT
-%token LPAREN RPAREN ASSIGN BACK_QUOTE
-%token EOL
+%token <id> STR
 
 
 %%
 nlang:
-	CONNECT ID{
-		fmt.Printf("connect %v\n", $2)
-	}
-	| ID ASSIGN BACK_QUOTE ID BACK_QUOTE{
-		fmt.Printf("%v = %v", $1, $4)
+	STR{
+		fmt.Printf("%v1\n", $1)
 	}
 	;
-
 %%

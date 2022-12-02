@@ -470,7 +470,7 @@ extern int yylex (void);
 #undef yyTABLES_NAME
 #endif
 
-#line 23 "./src/parser/n.l"
+#line 17 "./src/parser/n.l"
 
 
 #line 476 "./src/parser/n.lex.h"

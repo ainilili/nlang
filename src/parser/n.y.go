@@ -15,42 +15,17 @@ var idValueMap = map[string]interface{}{}
 
 //line ./src/parser/n.y:17
 type nSymType struct {
-	yys   int
-	value int
-	id    string
+	yys int
+	id  string
 }
 
-const NUMBER = 57346
-const ID = 57347
-const ADD = 57348
-const SUB = 57349
-const MUL = 57350
-const DIV = 57351
-const ABS = 57352
-const CONNECT = 57353
-const LPAREN = 57354
-const RPAREN = 57355
-const ASSIGN = 57356
-const BACK_QUOTE = 57357
-const EOL = 57358
+const STR = 57346
 
 var nToknames = [...]string{
 	"$end",
 	"error",
 	"$unk",
-	"NUMBER",
-	"ID",
-	"ADD",
-	"SUB",
-	"MUL",
-	"DIV",
-	"ABS",
-	"CONNECT",
-	"LPAREN",
-	"RPAREN",
-	"ASSIGN",
-	"BACK_QUOTE",
-	"EOL",
+	"STR",
 }
 
 var nStatenames = [...]string{}
@@ -59,7 +34,7 @@ const nEofCode = 1
 const nErrCode = 2
 const nInitialStackSize = 16
 
-//line ./src/parser/n.y:40
+//line ./src/parser/n.y:30
 
 //line yacctab:1
 var nExca = [...]int8{
@@ -70,34 +45,34 @@ var nExca = [...]int8{
 
 const nPrivate = 57344
 
-const nLast = 10
+const nLast = 2
 
 var nAct = [...]int8{
-	8, 6, 5, 3, 7, 4, 1, 0, 0, 2,
+	2, 1,
 }
 
 var nPact = [...]int16{
-	-2, -1000, 0, -12, -1000, -14, -1, -15, -1000,
+	-4, -1000, -1000,
 }
 
 var nPgo = [...]int8{
-	0, 6,
+	0, 1,
 }
 
 var nR1 = [...]int8{
-	0, 1, 1,
+	0, 1,
 }
 
 var nR2 = [...]int8{
-	0, 2, 5,
+	0, 1,
 }
 
 var nChk = [...]int16{
-	-1000, -1, 11, 5, 5, 14, 15, 5, 15,
+	-1000, -1, 4,
 }
 
 var nDef = [...]int8{
-	0, -2, 0, 0, 1, 0, 0, 0, 2,
+	0, -2, 1,
 }
 
 var nTok1 = [...]int8{
@@ -105,8 +80,7 @@ var nTok1 = [...]int8{
 }
 
 var nTok2 = [...]int8{
-	2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
-	12, 13, 14, 15, 16,
+	2, 3, 4,
 }
 
 var nTok3 = [...]int8{
@@ -451,16 +425,10 @@ ndefault:
 	switch nnt {
 
 	case 1:
-		nDollar = nS[npt-2 : npt+1]
-//line ./src/parser/n.y:32
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:26
 		{
-			fmt.Printf("connect %v\n", nDollar[2].id)
-		}
-	case 2:
-		nDollar = nS[npt-5 : npt+1]
-//line ./src/parser/n.y:35
-		{
-			fmt.Printf("%v = %v", nDollar[1].id, nDollar[4].id)
+			fmt.Printf("%v\n", nDollar[1].id)
 		}
 	}
 	goto nstack /* stack new state and value */

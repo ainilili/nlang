@@ -2,8 +2,7 @@
 state 0
 	$accept: .nlang $end 
 
-	ID  shift 3
-	CONNECT  shift 2
+	STR  shift 2
 	.  error
 
 	nlang  goto 1
@@ -16,61 +15,20 @@ state 1
 
 
 state 2
-	nlang:  CONNECT.ID 
+	nlang:  STR.    (1)
 
-	ID  shift 4
-	.  error
-
-
-state 3
-	nlang:  ID.ASSIGN BACK_QUOTE ID BACK_QUOTE 
-
-	ASSIGN  shift 5
-	.  error
+	.  reduce 1 (src line 25)
 
 
-state 4
-	nlang:  CONNECT ID.    (1)
-
-	.  reduce 1 (src line 31)
-
-
-state 5
-	nlang:  ID ASSIGN.BACK_QUOTE ID BACK_QUOTE 
-
-	BACK_QUOTE  shift 6
-	.  error
-
-
-state 6
-	nlang:  ID ASSIGN BACK_QUOTE.ID BACK_QUOTE 
-
-	ID  shift 7
-	.  error
-
-
-state 7
-	nlang:  ID ASSIGN BACK_QUOTE ID.BACK_QUOTE 
-
-	BACK_QUOTE  shift 8
-	.  error
-
-
-state 8
-	nlang:  ID ASSIGN BACK_QUOTE ID BACK_QUOTE.    (2)
-
-	.  reduce 2 (src line 35)
-
-
-16 terminals, 2 nonterminals
-3 grammar rules, 9/16000 states
+4 terminals, 2 nonterminals
+2 grammar rules, 3/16000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
 51 working sets used
 memory: parser 0/240000
 0 extra closures
-7 shift entries, 1 exceptions
+1 shift entries, 1 exceptions
 1 goto entries
 0 entries saved by goto default
-Optimizer space used: output 10/240000
-10 table entries, 2 zero
-maximum spread: 15, maximum offset: 15
+Optimizer space used: output 2/240000
+2 table entries, 0 zero
+maximum spread: 4, maximum offset: 4

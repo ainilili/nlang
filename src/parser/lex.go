@@ -11,7 +11,6 @@ import "C"
 import (
 	"errors"
 	"log"
-	"strconv"
 )
 
 type nLex struct {
@@ -48,38 +47,9 @@ func (p *nLex) Lex(yylval *nSymType) int {
 	p.yytext = C.GoString(C.yytext)
 
 	switch tok {
-	case C.ID:
+	case C.STR:
 		yylval.id = p.yytext
-		return ID
-
-	case C.NUMBER:
-		yylval.value, _ = strconv.Atoi(p.yytext)
-		return NUMBER
-
-	case C.SUB:
-		return SUB
-	case C.MUL:
-		return MUL
-	case C.DIV:
-		return DIV
-	case C.ABS:
-		return ABS
-
-	case C.LPAREN:
-		return LPAREN
-	case C.RPAREN:
-		return RPAREN
-	case C.ASSIGN:
-		return ASSIGN
-
-	case C.EOL:
-		return EOL
-	case C.CONNECT:
-		return CONNECT
-	}
-
-	if tok == C.ILLEGAL {
-		log.Printf("lex: ILLEGAL token, yytext = %q, yylineno = %d", p.yytext, p.yylineno)
+		return STR
 	}
 
 	return 0 // eof
