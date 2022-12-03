@@ -11,20 +11,25 @@ import (
 	"fmt"
 )
 
-var idValueMap = map[string]interface{}{}
 %}
 
 %union {
 	id    string
 }
 
-%token <id> STR
+%token <id> ID STRING
+%token ASSIGN
 
 
 %%
 nlang:
-	STR{
-		fmt.Printf("%v1\n", $1)
+	assign
+	;
+
+assign:
+	ID STRING{
+		fmt.Printf("%v = %v\n", $1, $2)
 	}
 	;
+
 %%

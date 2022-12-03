@@ -4,7 +4,7 @@
 
 package parser
 
-//#include "const.h"
+//#include "tok.h"
 //#include "n.lex.h"
 import "C"
 
@@ -47,9 +47,14 @@ func (p *nLex) Lex(yylval *nSymType) int {
 	p.yytext = C.GoString(C.yytext)
 
 	switch tok {
-	case C.STR:
+	case C.ASSIGN:
+		return ASSIGN
+	case C.ID:
 		yylval.id = p.yytext
-		return STR
+		return ID
+	case C.STRING:
+		yylval.id = p.yytext
+		return STRING
 	}
 
 	return 0 // eof

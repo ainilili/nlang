@@ -13,8 +13,8 @@ enum {
 
 	LPAREN = 265, // (
 	RPAREN = 266, // )
+
 	ASSIGN = 267, // =
 	BACK_QUOTE = 300, // `
-
-	STR = 401,
+	STRING = 401,
 };

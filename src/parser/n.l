@@ -5,14 +5,14 @@
 %option noyywrap
 
 %{
-#include "const.h"
+#include "tok.h"
 %}
 %%
 
-L?\"(\\.|[^\\"\n])*\"	{
-	printf("%s\n", yytext);
-	return STR;
-}
+[_a-zA-Z]+ 		{ return ID; }
+= 			{ return ASSIGN; }
+L?\"(\\.|[^\\"\n])*\"	{ return STRING; }
+
 
 %%
 

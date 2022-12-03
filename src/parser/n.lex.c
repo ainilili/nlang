@@ -356,8 +356,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 2
-#define YY_END_OF_BUFFER 3
+#define YY_NUM_RULES 4
+#define YY_END_OF_BUFFER 5
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -365,10 +365,10 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[12] =
+static const flex_int16_t yy_accept[15] =
     {   0,
-        0,    0,    3,    2,    2,    2,    0,    1,    0,    0,
-        0
+        0,    0,    5,    4,    4,    2,    1,    1,    0,    3,
+        0,    1,    0,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -379,14 +379,14 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    3,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    4,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    5,    1,    1,    1,    1,    1,    1,    1,    1,
+        4,    1,    1,    1,    5,    5,    5,    5,    5,    5,
+        5,    5,    5,    5,    5,    6,    5,    5,    5,    5,
+        5,    5,    5,    5,    5,    5,    5,    5,    5,    5,
+        1,    7,    1,    1,    5,    1,    5,    5,    5,    5,
 
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        5,    5,    5,    5,    5,    5,    5,    5,    5,    5,
+        5,    5,    5,    5,    5,    5,    5,    5,    5,    5,
+        5,    5,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -403,35 +403,35 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static const YY_CHAR yy_meta[6] =
+static const YY_CHAR yy_meta[8] =
     {   0,
-        1,    1,    2,    1,    1
+        1,    2,    1,    1,    3,    3,    1
     } ;
 
-static const flex_int16_t yy_base[14] =
+static const flex_int16_t yy_base[17] =
     {   0,
-        0,    2,    8,   17,    6,    0,    0,   17,    9,    0,
-       17,   14,    0
+        0,    0,   11,   21,    5,   21,    0,    7,   10,   21,
+        0,    0,    0,   21,   17,    6
     } ;
 
-static const flex_int16_t yy_def[14] =
+static const flex_int16_t yy_def[17] =
     {   0,
-       12,   12,   11,   11,   11,   13,    5,   11,    5,    5,
-        0,   11,   11
+       14,    1,   14,   14,   15,   14,   16,   16,   15,   14,
+       15,   16,    9,    0,   14,   14
     } ;
 
-static const flex_int16_t yy_nxt[23] =
+static const flex_int16_t yy_nxt[29] =
     {   0,
-       11,   10,    5,    6,    5,    6,    7,   11,    8,    7,
-        9,    7,   11,    7,    4,    4,    3,   11,   11,   11,
-       11,   11
+        4,    4,    5,    6,    7,    8,    4,   10,   12,   13,
+       14,   11,   10,   14,   14,   14,   11,    9,   14,    9,
+        3,   14,   14,   14,   14,   14,   14,   14
     } ;
 
-static const flex_int16_t yy_chk[23] =
+static const flex_int16_t yy_chk[29] =
     {   0,
-        0,   13,    1,    1,    2,    2,    5,    3,    5,    5,
-        5,    9,    0,    9,   12,   12,   11,   11,   11,   11,
-       11,   11
+        1,    1,    1,    1,    1,    1,    1,    5,   16,    8,
+        3,    5,    9,    0,    0,    0,    9,   15,    0,   15,
+       14,   14,   14,   14,   14,   14,   14,   14
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -453,7 +453,7 @@ char *yytext;
 /* Use of this source code is governed by a Apache */
 /* license that can be found in the LICENSE file. */
 #line 8 "./src/parser/n.l"
-#include "const.h"
+#include "tok.h"
 #line 457 "./src/parser/n.lex.c"
 #line 458 "./src/parser/n.lex.c"
 
@@ -702,13 +702,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 12 )
+				if ( yy_current_state >= 15 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 17 );
+		while ( yy_base[yy_current_state] != 21 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -735,17 +735,24 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 12 "./src/parser/n.l"
-{
-	printf("%s\n", yytext);
-	return STR;
-}
+{ return ID; }
 	YY_BREAK
 case 2:
+YY_RULE_SETUP
+#line 13 "./src/parser/n.l"
+{ return ASSIGN; }
+	YY_BREAK
+case 3:
+YY_RULE_SETUP
+#line 14 "./src/parser/n.l"
+{ return STRING; }
+	YY_BREAK
+case 4:
 YY_RULE_SETUP
 #line 17 "./src/parser/n.l"
 ECHO;
 	YY_BREAK
-#line 748 "./src/parser/n.lex.c"
+#line 755 "./src/parser/n.lex.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1042,7 +1049,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 12 )
+			if ( yy_current_state >= 15 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1070,11 +1077,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 12 )
+		if ( yy_current_state >= 15 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 11);
+	yy_is_jam = (yy_current_state == 14);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }

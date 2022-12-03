@@ -11,21 +11,23 @@ import (
 	"fmt"
 )
 
-var idValueMap = map[string]interface{}{}
-
-//line ./src/parser/n.y:17
+//line ./src/parser/n.y:16
 type nSymType struct {
 	yys int
 	id  string
 }
 
-const STR = 57346
+const ID = 57346
+const STRING = 57347
+const ASSIGN = 57348
 
 var nToknames = [...]string{
 	"$end",
 	"error",
 	"$unk",
-	"STR",
+	"ID",
+	"STRING",
+	"ASSIGN",
 }
 
 var nStatenames = [...]string{}
@@ -34,7 +36,7 @@ const nEofCode = 1
 const nErrCode = 2
 const nInitialStackSize = 16
 
-//line ./src/parser/n.y:30
+//line ./src/parser/n.y:35
 
 //line yacctab:1
 var nExca = [...]int8{
@@ -45,34 +47,34 @@ var nExca = [...]int8{
 
 const nPrivate = 57344
 
-const nLast = 2
+const nLast = 4
 
 var nAct = [...]int8{
-	2, 1,
+	4, 3, 2, 1,
 }
 
 var nPact = [...]int16{
-	-4, -1000, -1000,
+	-3, -1000, -1000, -5, -1000,
 }
 
 var nPgo = [...]int8{
-	0, 1,
+	0, 3, 2,
 }
 
 var nR1 = [...]int8{
-	0, 1,
+	0, 1, 2,
 }
 
 var nR2 = [...]int8{
-	0, 1,
+	0, 1, 2,
 }
 
 var nChk = [...]int16{
-	-1000, -1, 4,
+	-1000, -1, -2, 4, 5,
 }
 
 var nDef = [...]int8{
-	0, -2, 1,
+	0, -2, 1, 0, 2,
 }
 
 var nTok1 = [...]int8{
@@ -80,7 +82,7 @@ var nTok1 = [...]int8{
 }
 
 var nTok2 = [...]int8{
-	2, 3, 4,
+	2, 3, 4, 5, 6,
 }
 
 var nTok3 = [...]int8{
@@ -424,11 +426,11 @@ ndefault:
 	// dummy call; replaced with literal code
 	switch nnt {
 
-	case 1:
-		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:26
+	case 2:
+		nDollar = nS[npt-2 : npt+1]
+//line ./src/parser/n.y:30
 		{
-			fmt.Printf("%v\n", nDollar[1].id)
+			fmt.Printf("%v = %v\n", nDollar[1].id, nDollar[2].id)
 		}
 	}
 	goto nstack /* stack new state and value */
