@@ -19,7 +19,8 @@ type nSymType struct {
 
 const ID = 57346
 const STRING = 57347
-const ASSIGN = 57348
+const SQL = 57348
+const ASSIGN = 57349
 
 var nToknames = [...]string{
 	"$end",
@@ -27,6 +28,7 @@ var nToknames = [...]string{
 	"$unk",
 	"ID",
 	"STRING",
+	"SQL",
 	"ASSIGN",
 }
 
@@ -36,7 +38,7 @@ const nEofCode = 1
 const nErrCode = 2
 const nInitialStackSize = 16
 
-//line ./src/parser/n.y:35
+//line ./src/parser/n.y:41
 
 //line yacctab:1
 var nExca = [...]int8{
@@ -47,34 +49,34 @@ var nExca = [...]int8{
 
 const nPrivate = 57344
 
-const nLast = 4
+const nLast = 7
 
 var nAct = [...]int8{
-	4, 3, 2, 1,
+	6, 7, 3, 4, 2, 1, 5,
 }
 
 var nPact = [...]int16{
-	-3, -1000, -1000, -5, -1000,
+	-2, -1000, -1000, -4, -5, -1000, -1000, -1000,
 }
 
 var nPgo = [...]int8{
-	0, 3, 2,
+	0, 6, 5, 4,
 }
 
 var nR1 = [...]int8{
-	0, 1, 2,
+	0, 2, 3, 1, 1,
 }
 
 var nR2 = [...]int8{
-	0, 1, 2,
+	0, 1, 3, 1, 1,
 }
 
 var nChk = [...]int16{
-	-1000, -1, -2, 4, 5,
+	-1000, -2, -3, 4, 7, -1, 5, 6,
 }
 
 var nDef = [...]int8{
-	0, -2, 1, 0, 2,
+	0, -2, 1, 0, 0, 2, 3, 4,
 }
 
 var nTok1 = [...]int8{
@@ -82,7 +84,7 @@ var nTok1 = [...]int8{
 }
 
 var nTok2 = [...]int8{
-	2, 3, 4, 5, 6,
+	2, 3, 4, 5, 6, 7,
 }
 
 var nTok3 = [...]int8{
@@ -427,10 +429,10 @@ ndefault:
 	switch nnt {
 
 	case 2:
-		nDollar = nS[npt-2 : npt+1]
-//line ./src/parser/n.y:30
+		nDollar = nS[npt-3 : npt+1]
+//line ./src/parser/n.y:31
 		{
-			fmt.Printf("%v = %v\n", nDollar[1].id, nDollar[2].id)
+			fmt.Printf("%v = %v\n", nDollar[1].id, nDollar[3].id)
 		}
 	}
 	goto nstack /* stack new state and value */

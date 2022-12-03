@@ -55,6 +55,9 @@ func (p *nLex) Lex(yylval *nSymType) int {
 	case C.STRING:
 		yylval.id = p.yytext
 		return STRING
+	case C.SQL:
+		yylval.id = p.yytext
+		return SQL
 	}
 
 	return 0 // eof

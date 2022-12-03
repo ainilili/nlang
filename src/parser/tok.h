@@ -17,4 +17,5 @@ enum {
 	ASSIGN = 267, // =
 	BACK_QUOTE = 300, // `
 	STRING = 401,
+	SQL = 402,
 };

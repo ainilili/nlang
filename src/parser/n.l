@@ -9,9 +9,10 @@
 %}
 %%
 
-[_a-zA-Z]+ 		{ return ID; }
-= 			{ return ASSIGN; }
-L?\"(\\.|[^\\"\n])*\"	{ return STRING; }
+[_a-zA-Z]+ 			{ return ID; }
+= 				{ return ASSIGN; }
+L?\"(\\.|\t|\n|\"|[^\\"\n])*\"	{ return STRING; }
+L?\`(\\.|\t|\n|\"|[^\\"\n])*\`	{ return SQL; }
 
 
 %%

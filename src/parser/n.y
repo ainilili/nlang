@@ -17,7 +17,8 @@ import (
 	id    string
 }
 
-%token <id> ID STRING
+%type <id> expression
+%token <id> ID STRING SQL
 %token ASSIGN
 
 
@@ -26,10 +27,15 @@ nlang:
 	assign
 	;
 
-assign:
-	ID STRING{
-		fmt.Printf("%v = %v\n", $1, $2)
+assign
+	: ID ASSIGN expression{
+		fmt.Printf("%v = %v\n", $1, $3)
 	}
+	;
+
+expression
+	: STRING
+	| SQL
 	;
 
 %%
