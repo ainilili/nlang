@@ -49,8 +49,8 @@ function
 	: postfix_function '{' '}'{
 		$$ = $1
 	}
-	| postfix_function '{' block_list '}'{
-		$1.Blocks = $3
+	| postfix_function '{' EOL block_list EOL '}'{
+		$1.Blocks = $4
 		$$ = $1
 	}
 
@@ -83,7 +83,7 @@ block_list
 	;
 
 block
-	: assignment {
+	: assignment{
 		$$ = ast.Block{Type: ast.AssignmentBlock, Value: $1}
 	}
 	;

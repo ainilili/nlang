@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"nlang/src/ast"
 	"nlang/src/parser"
 )
 
@@ -10,6 +11,8 @@ func main() {
 	//str := "a = \"ab\t \n\"\"c\""
 	str := `func hello(a int, b string){
 	a = "abc"
+	b = "23"
+	c = b
 }`
 	parser.Parse(parser.NewNLex([]byte(str)))
 
@@ -19,7 +22,12 @@ func main() {
 			fmt.Println(arg.Name, arg.Type)
 		}
 		for _, block := range fn.Blocks {
-			fmt.Println(block.Value, block.Type)
+
+			switch block.Type {
+			case ast.AssignmentBlock:
+				ass := block.Value.(ast.Assignment)
+				fmt.Printf("%v = %v, %v\n", ass.Variable, ass.Value.Value, ass.Value.Type)
+			}
 		}
 	}
 }
