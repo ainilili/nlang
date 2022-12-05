@@ -15,6 +15,7 @@ var Ast ast.NLang
 
 %union {
 	id    string
+	number int
 	value ast.Value
 	value_type ast.ValueType
 	assignment ast.Assignment
@@ -35,6 +36,8 @@ var Ast ast.NLang
 %type <block_list> block_list
 
 %token <id> ID STRING_LITERAL SQL_LITERAL
+%token <number> INT_LITERAL
+
 %token ASSIGN FUNC EOL STRING INT FLOAT BOOL
 
 
@@ -111,17 +114,20 @@ assignment
 
 value
 	: STRING_LITERAL {
-		$$ = ast.Value{Type: ast.String, Value:$1}
+		$$ = ast.Value{Type: ast.StringType, Value:$1}
 	}
 	| SQL_LITERAL {
-		$$ = ast.Value{Type: ast.SQL, Value:$1}
+		$$ = ast.Value{Type: ast.SQLType, Value:$1}
+	}
+	| INT_LITERAL {
+		$$ = ast.Value{Type: ast.IntType, Value:$1}
 	}
 	;
 
 value_type
-	: STRING { $$ = ast.String }
-	| INT { $$ = ast.Int }
-	| FLOAT { $$ = ast.Float }
-	| BOOL { $$ = ast.Bool }
+	: STRING { $$ = ast.StringType }
+	| INT { $$ = ast.IntType }
+	| FLOAT { $$ = ast.FloatType }
+	| BOOL { $$ = ast.BoolType }
 	;
 %%

@@ -12,7 +12,7 @@ func main() {
 	str := `func hello(a int, b string){
 	a = "abc"
 	b = "23"
-	c = b
+	c = 100
 }`
 	parser.Parse(parser.NewNLex([]byte(str)))
 

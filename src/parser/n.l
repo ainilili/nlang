@@ -11,14 +11,17 @@
 
 
 = 				{ return ASSIGN; }
-L?\"(\\.|\"|[^\\"\n])*\"	{ return STRING_LITERAL; }
-L?\`(\\.|\"|[^\\"\n])*\`	{ return SQL_LITERAL; }
 \n				{ return EOL; }
 "("				{ return '('; }
 ")"				{ return ')'; }
 ","				{ return ','; }
 "{"				{ return '{'; }
 "}"				{ return '}'; }
+
+[0-9]+   			{ return INT_LITERAL; }
+L?\"(\\.|\"|[^\\"\n])*\"	{ return STRING_LITERAL; }
+L?\`(\\.|\"|[^\\"\n])*\`	{ return SQL_LITERAL; }
+
 
 
 "func" 				{ return FUNC;}

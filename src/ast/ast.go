@@ -5,11 +5,11 @@ type BlockType int
 
 const (
 	_ ValueType = iota
-	String
-	Int
-	Float
-	Bool
-	SQL
+	StringType
+	IntType
+	FloatType
+	BoolType
+	SQLType
 
 	_ BlockType = iota
 	AssignmentBlock

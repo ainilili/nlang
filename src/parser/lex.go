@@ -11,6 +11,7 @@ import "C"
 import (
 	"errors"
 	"log"
+	"strconv"
 )
 
 type nLex struct {
@@ -56,6 +57,10 @@ func (p *nLex) Lex(yylval *nSymType) int {
 	case C.SQL_LITERAL:
 		yylval.id = p.yytext
 		return SQL_LITERAL
+	case C.INT_LITERAL:
+		num, _ := strconv.Atoi(p.yytext)
+		yylval.number = num
+		return INT_LITERAL
 	case C.FUNC:
 		return FUNC
 	case C.EOL:
