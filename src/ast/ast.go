@@ -1,7 +1,7 @@
 package ast
 
 type ValueType int
-type ExpressionType int
+type BlockType int
 
 const (
 	_ ValueType = iota
@@ -11,7 +11,8 @@ const (
 	Bool
 	SQL
 
-	_ ExpressionType = iota
+	_ BlockType = iota
+	AssignmentBlock
 )
 
 type NLang struct {
@@ -19,9 +20,10 @@ type NLang struct {
 }
 
 type Function struct {
-	Name    string
-	Args    []Argument
-	Results interface{}
+	Name   string
+	Args   []Argument
+	Type   ValueType
+	Blocks []Block
 }
 
 type Argument struct {
@@ -36,5 +38,10 @@ type Assignment struct {
 
 type Value struct {
 	Type  ValueType
+	Value interface{}
+}
+
+type Block struct {
+	Type  BlockType
 	Value interface{}
 }

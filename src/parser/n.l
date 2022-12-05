@@ -13,9 +13,12 @@
 = 				{ return ASSIGN; }
 L?\"(\\.|\t|\n|\"|[^\\"\n])*\"	{ return STRING_LITERAL; }
 L?\`(\\.|\t|\n|\"|[^\\"\n])*\`	{ return SQL_LITERAL; }
-\n				{ return EOL; }
+\n				{ return '\n'; }
 "("				{ return '('; }
 ")"				{ return ')'; }
+","				{ return ','; }
+"{"				{ return '{'; }
+"}"				{ return '}'; }
 
 
 "func" 				{ return FUNC;}

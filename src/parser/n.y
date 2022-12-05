@@ -18,18 +18,24 @@ var Ast ast.NLang
 	value ast.Value
 	value_type ast.ValueType
 	assignment ast.Assignment
+	argument_list []ast.Argument
 	argument ast.Argument
 	function ast.Function
+	block ast.Block
+	block_list []ast.Block
 }
 
 %type <value> value
 %type <assignment> assignment
 %type <value_type> value_type
-%type <function> function
+%type <function> function prefix_function postfix_function
 %type <argument> argument
+%type <argument_list> argument_list
+%type <block> block
+%type <block_list> block_list
 
 %token <id> ID STRING_LITERAL SQL_LITERAL
-%token ASSIGN FUNC EOL STRING INT FLOAT BOOL '(' ')'
+%token ASSIGN FUNC EOL STRING INT FLOAT BOOL
 
 
 %%
@@ -40,11 +46,54 @@ nlang
 	;
 
 function
+	: postfix_function '{' '}'{
+		$$ = $1
+	}
+	| postfix_function '{' block_list '}'{
+		$1.Blocks = $3
+		$$ = $1
+	}
+
+postfix_function
+	: prefix_function {
+		$$ = $1
+	}
+	| prefix_function value_type {
+		$1.Type = $2
+		$$ = $1
+	}
+	;
+
+prefix_function
 	: FUNC ID '(' ')'{
 		$$ = ast.Function{Name: $2}
 	}
-	| FUNC ID '(' argument ')'{
-		$$ = ast.Function{Name: $2, Args: []ast.Argument{$4}}
+	| FUNC ID '(' argument_list ')'{
+		$$ = ast.Function{Name: $2, Args: $4}
+	}
+	;
+
+block_list
+	: block {
+		$$ = []ast.Block{$1}
+	}
+	| block_list EOL block {
+		$$ = append($1, $3)
+	}
+	;
+
+block
+	: assignment {
+		$$ = ast.Block{Type: ast.AssignmentBlock, Value: $1}
+	}
+	;
+
+argument_list
+	: argument {
+		$$ = []ast.Argument{$1}
+	}
+	| argument_list ',' argument{
+		$$ = append($1, $3)
 	}
 	;
 
@@ -68,8 +117,6 @@ value
 		$$ = ast.Value{Type: ast.SQL, Value:$1}
 	}
 	;
-
-
 
 value_type
 	: STRING { $$ = ast.String }
