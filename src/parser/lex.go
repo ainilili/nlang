@@ -52,12 +52,16 @@ func (p *nLex) Lex(yylval *nSymType) int {
 	case C.ID:
 		yylval.id = p.yytext
 		return ID
-	case C.STRING:
+	case C.STRING_LITERAL:
 		yylval.id = p.yytext
-		return STRING
-	case C.SQL:
+		return STRING_LITERAL
+	case C.SQL_LITERAL:
 		yylval.id = p.yytext
-		return SQL
+		return SQL_LITERAL
+	case C.FUNC:
+		return FUNC
+	case C.EOL:
+		return EOL
 	}
 
 	return 0 // eof

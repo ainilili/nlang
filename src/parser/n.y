@@ -9,33 +9,60 @@ package parser
 
 import (
 	"fmt"
+	"nlang/src/ast"
 )
 
 %}
 
 %union {
 	id    string
+	value ast.Value
+	valueType ast.ValueType
+	assignment ast.Assignment
+	argument ast.Argument
 }
 
-%type <id> expression
-%token <id> ID STRING SQL
-%token ASSIGN
+%type <value> value
+%type <assignment> assignment
+%token <id> ID STRING_LITERAL SQL_LITERAL
+%token ASSIGN FUNC EOL STRING INT FLOAT BOOL
 
 
 %%
-nlang:
-	assign
-	;
-
-assign
-	: ID ASSIGN expression{
-		fmt.Printf("%v = %v\n", $1, $3)
+nlang
+	: assignment {
+		fmt.Println($1)
 	}
 	;
 
-expression
-	: STRING
-	| SQL
+function
+	: func ID '(' argument ')' {
+
+	}
+
+
+
+assignment
+	: ID ASSIGN expression{
+		$$ = ast.Assignment{Parameter: $1, Expression: $3}
+	}
 	;
 
+argument
+	: ID value_type
+
+value
+	: STRING_LITERAL {
+		$$ = ast.Value{Type: ast.String, Value:$1}
+	}
+	| SQL_LITERAL {
+		$$ = ast.Value{Type: ast.SQL, Value:$1}
+	}
+	;
+
+value_type
+	: STRING { $$ = ast.String }
+	| INT { $$ = ast.Int }
+	| FLOAT { $$ = ast.Float }
+	| BOOL { $$ = ast.Bool }
 %%

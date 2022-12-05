@@ -1,69 +1,10 @@
 
-state 0
-	$accept: .nlang $end 
-
-	ID  shift 3
-	.  error
-
-	nlang  goto 1
-	assign  goto 2
-
-state 1
-	$accept:  nlang.$end 
-
-	$end  accept
-	.  error
-
-
-state 2
-	nlang:  assign.    (1)
-
-	.  reduce 1 (src line 26)
-
-
-state 3
-	assign:  ID.ASSIGN expression 
-
-	ASSIGN  shift 4
-	.  error
-
-
-state 4
-	assign:  ID ASSIGN.expression 
-
-	STRING  shift 6
-	SQL  shift 7
-	.  error
-
-	expression  goto 5
-
-state 5
-	assign:  ID ASSIGN expression.    (2)
-
-	.  reduce 2 (src line 30)
-
-
-state 6
-	expression:  STRING.    (3)
-
-	.  reduce 3 (src line 36)
-
-
-state 7
-	expression:  SQL.    (4)
-
-	.  reduce 4 (src line 38)
-
-
-7 terminals, 4 nonterminals
-5 grammar rules, 8/16000 states
+15 terminals, 8 nonterminals
+3 grammar rules, 0/16000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
-53 working sets used
-memory: parser 2/240000
+0 working sets used
+memory: parser 0/240000
 0 extra closures
-4 shift entries, 1 exceptions
-3 goto entries
+0 shift entries, 0 exceptions
+0 goto entries
 0 entries saved by goto default
-Optimizer space used: output 7/240000
-7 table entries, 0 zero
-maximum spread: 7, maximum offset: 7

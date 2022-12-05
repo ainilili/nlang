@@ -6,16 +6,14 @@ enum {
 	NUMBER = 259,
 
 	CONNECT = 260, // +
-	SUB = 261, // -
-	MUL = 262, // *
-	DIV = 263, // /
-	ABS = 264, // |
-
-	LPAREN = 265, // (
-	RPAREN = 266, // )
 
 	ASSIGN = 267, // =
 	BACK_QUOTE = 300, // `
-	STRING = 401,
-	SQL = 402,
+	STRING_LITERAL = 401,
+	SQL_LITERAL = 402,
+	FUNC = 403,
+	INT = 404,
+	STRING = 405,
+	FLOAT = 406,
+	BOOL = 407,
 };

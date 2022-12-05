@@ -11,9 +11,18 @@
 
 [_a-zA-Z]+ 			{ return ID; }
 = 				{ return ASSIGN; }
-L?\"(\\.|\t|\n|\"|[^\\"\n])*\"	{ return STRING; }
-L?\`(\\.|\t|\n|\"|[^\\"\n])*\`	{ return SQL; }
+L?\"(\\.|\t|\n|\"|[^\\"\n])*\"	{ return STRING_LITERAL; }
+L?\`(\\.|\t|\n|\"|[^\\"\n])*\`	{ return SQL_LITERAL; }
+\n				{ return EOL; }
+"("				{ return '('; }
+")"				{ return ')'; }
 
+
+"func" 				{ return FUNC;}
+"int" 				{ return INT; }
+"float" 			{ return FLOAT; }
+"string" 			{ return STRING; }
+"bool" 				{ return BOOL; }
 
 %%
 
