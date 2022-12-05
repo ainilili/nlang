@@ -1,9 +1,20 @@
 package main
 
-import "nlang/src/parser"
+import (
+	"fmt"
+	"nlang/src/parser"
+)
 
 func main() {
 	//str := "connect abc\na = `select * from user`"
-	str := "a = \"ab\t \n\"\"c\""
+	//str := "a = \"ab\t \n\"\"c\""
+	str := "func hello(a int)"
 	parser.Parse(parser.NewNLex([]byte(str)))
+
+	for _, fn := range parser.Ast.Functions {
+		fmt.Println(fn.Name)
+		for _, arg := range fn.Args {
+			fmt.Println(arg.Name, arg.Type)
+		}
+	}
 }

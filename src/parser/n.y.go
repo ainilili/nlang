@@ -8,16 +8,524 @@ import __yyfmt__ "fmt"
 //line ./src/parser/n.y:8
 
 import (
-	"fmt"
 	"nlang/src/ast"
 )
 
-//line ./src/parser/n.y:17
+var Ast ast.NLang
+
+//line ./src/parser/n.y:16
 type nSymType struct {
 	yys        int
 	id         string
 	value      ast.Value
-	valueType  ast.ValueType
+	value_type ast.ValueType
 	assignment ast.Assignment
 	argument   ast.Argument
+	function   ast.Function
+}
+
+const ID = 57346
+const STRING_LITERAL = 57347
+const SQL_LITERAL = 57348
+const ASSIGN = 57349
+const FUNC = 57350
+const EOL = 57351
+const STRING = 57352
+const INT = 57353
+const FLOAT = 57354
+const BOOL = 57355
+
+var nToknames = [...]string{
+	"$end",
+	"error",
+	"$unk",
+	"ID",
+	"STRING_LITERAL",
+	"SQL_LITERAL",
+	"ASSIGN",
+	"FUNC",
+	"EOL",
+	"STRING",
+	"INT",
+	"FLOAT",
+	"BOOL",
+	"'('",
+	"')'",
+}
+
+var nStatenames = [...]string{}
+
+const nEofCode = 1
+const nErrCode = 2
+const nInitialStackSize = 16
+
+//line ./src/parser/n.y:80
+
+//line yacctab:1
+var nExca = [...]int8{
+	-1, 1,
+	1, -1,
+	-2, 0,
+}
+
+const nPrivate = 57344
+
+const nLast = 16
+
+var nAct = [...]int8{
+	11, 12, 13, 14, 8, 3, 9, 5, 4, 1,
+	7, 2, 10, 0, 0, 6,
+}
+
+var nPact = [...]int16{
+	-3, -1000, -1000, 4, -7, 0, -1000, -9, -10, -1000,
+	-1000, -1000, -1000, -1000, -1000,
+}
+
+var nPgo = [...]int8{
+	0, 13, 13, 12, 11, 10, 9,
+}
+
+var nR1 = [...]int8{
+	0, 6, 4, 4, 5, 2, 1, 1, 3, 3,
+	3, 3,
+}
+
+var nR2 = [...]int8{
+	0, 1, 4, 5, 2, 3, 1, 1, 1, 1,
+	1, 1,
+}
+
+var nChk = [...]int16{
+	-1000, -6, -4, 8, 4, 14, 15, -5, 4, 15,
+	-3, 10, 11, 12, 13,
+}
+
+var nDef = [...]int8{
+	0, -2, 1, 0, 0, 0, 2, 0, 0, 3,
+	4, 8, 9, 10, 11,
+}
+
+var nTok1 = [...]int8{
+	1, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	14, 15,
+}
+
+var nTok2 = [...]int8{
+	2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+	12, 13,
+}
+
+var nTok3 = [...]int8{
+	0,
+}
+
+var nErrorMessages = [...]struct {
+	state int
+	token int
+	msg   string
+}{}
+
+//line yaccpar:1
+
+/*	parser for yacc output	*/
+
+var (
+	nDebug        = 0
+	nErrorVerbose = false
+)
+
+type nLexer interface {
+	Lex(lval *nSymType) int
+	Error(s string)
+}
+
+type nParser interface {
+	Parse(nLexer) int
+	Lookahead() int
+}
+
+type nParserImpl struct {
+	lval  nSymType
+	stack [nInitialStackSize]nSymType
+	char  int
+}
+
+func (p *nParserImpl) Lookahead() int {
+	return p.char
+}
+
+func nNewParser() nParser {
+	return &nParserImpl{}
+}
+
+const nFlag = -1000
+
+func nTokname(c int) string {
+	if c >= 1 && c-1 < len(nToknames) {
+		if nToknames[c-1] != "" {
+			return nToknames[c-1]
+		}
+	}
+	return __yyfmt__.Sprintf("tok-%v", c)
+}
+
+func nStatname(s int) string {
+	if s >= 0 && s < len(nStatenames) {
+		if nStatenames[s] != "" {
+			return nStatenames[s]
+		}
+	}
+	return __yyfmt__.Sprintf("state-%v", s)
+}
+
+func nErrorMessage(state, lookAhead int) string {
+	const TOKSTART = 4
+
+	if !nErrorVerbose {
+		return "syntax error"
+	}
+
+	for _, e := range nErrorMessages {
+		if e.state == state && e.token == lookAhead {
+			return "syntax error: " + e.msg
+		}
+	}
+
+	res := "syntax error: unexpected " + nTokname(lookAhead)
+
+	// To match Bison, suggest at most four expected tokens.
+	expected := make([]int, 0, 4)
+
+	// Look for shiftable tokens.
+	base := int(nPact[state])
+	for tok := TOKSTART; tok-1 < len(nToknames); tok++ {
+		if n := base + tok; n >= 0 && n < nLast && int(nChk[int(nAct[n])]) == tok {
+			if len(expected) == cap(expected) {
+				return res
+			}
+			expected = append(expected, tok)
+		}
+	}
+
+	if nDef[state] == -2 {
+		i := 0
+		for nExca[i] != -1 || int(nExca[i+1]) != state {
+			i += 2
+		}
+
+		// Look for tokens that we accept or reduce.
+		for i += 2; nExca[i] >= 0; i += 2 {
+			tok := int(nExca[i])
+			if tok < TOKSTART || nExca[i+1] == 0 {
+				continue
+			}
+			if len(expected) == cap(expected) {
+				return res
+			}
+			expected = append(expected, tok)
+		}
+
+		// If the default action is to accept or reduce, give up.
+		if nExca[i+1] != 0 {
+			return res
+		}
+	}
+
+	for i, tok := range expected {
+		if i == 0 {
+			res += ", expecting "
+		} else {
+			res += " or "
+		}
+		res += nTokname(tok)
+	}
+	return res
+}
+
+func nlex1(lex nLexer, lval *nSymType) (char, token int) {
+	token = 0
+	char = lex.Lex(lval)
+	if char <= 0 {
+		token = int(nTok1[0])
+		goto out
+	}
+	if char < len(nTok1) {
+		token = int(nTok1[char])
+		goto out
+	}
+	if char >= nPrivate {
+		if char < nPrivate+len(nTok2) {
+			token = int(nTok2[char-nPrivate])
+			goto out
+		}
+	}
+	for i := 0; i < len(nTok3); i += 2 {
+		token = int(nTok3[i+0])
+		if token == char {
+			token = int(nTok3[i+1])
+			goto out
+		}
+	}
+
+out:
+	if token == 0 {
+		token = int(nTok2[1]) /* unknown char */
+	}
+	if nDebug >= 3 {
+		__yyfmt__.Printf("lex %s(%d)\n", nTokname(token), uint(char))
+	}
+	return char, token
+}
+
+func nParse(nlex nLexer) int {
+	return nNewParser().Parse(nlex)
+}
+
+func (nrcvr *nParserImpl) Parse(nlex nLexer) int {
+	var nn int
+	var nVAL nSymType
+	var nDollar []nSymType
+	_ = nDollar // silence set and not used
+	nS := nrcvr.stack[:]
+
+	Nerrs := 0   /* number of errors */
+	Errflag := 0 /* error recovery flag */
+	nstate := 0
+	nrcvr.char = -1
+	ntoken := -1 // nrcvr.char translated into internal numbering
+	defer func() {
+		// Make sure we report no lookahead when not parsing.
+		nstate = -1
+		nrcvr.char = -1
+		ntoken = -1
+	}()
+	np := -1
+	goto nstack
+
+ret0:
+	return 0
+
+ret1:
+	return 1
+
+nstack:
+	/* put a state and value onto the stack */
+	if nDebug >= 4 {
+		__yyfmt__.Printf("char %v in %v\n", nTokname(ntoken), nStatname(nstate))
+	}
+
+	np++
+	if np >= len(nS) {
+		nyys := make([]nSymType, len(nS)*2)
+		copy(nyys, nS)
+		nS = nyys
+	}
+	nS[np] = nVAL
+	nS[np].yys = nstate
+
+nnewstate:
+	nn = int(nPact[nstate])
+	if nn <= nFlag {
+		goto ndefault /* simple state */
+	}
+	if nrcvr.char < 0 {
+		nrcvr.char, ntoken = nlex1(nlex, &nrcvr.lval)
+	}
+	nn += ntoken
+	if nn < 0 || nn >= nLast {
+		goto ndefault
+	}
+	nn = int(nAct[nn])
+	if int(nChk[nn]) == ntoken { /* valid shift */
+		nrcvr.char = -1
+		ntoken = -1
+		nVAL = nrcvr.lval
+		nstate = nn
+		if Errflag > 0 {
+			Errflag--
+		}
+		goto nstack
+	}
+
+ndefault:
+	/* default state action */
+	nn = int(nDef[nstate])
+	if nn == -2 {
+		if nrcvr.char < 0 {
+			nrcvr.char, ntoken = nlex1(nlex, &nrcvr.lval)
+		}
+
+		/* look through exception table */
+		xi := 0
+		for {
+			if nExca[xi+0] == -1 && int(nExca[xi+1]) == nstate {
+				break
+			}
+			xi += 2
+		}
+		for xi += 2; ; xi += 2 {
+			nn = int(nExca[xi+0])
+			if nn < 0 || nn == ntoken {
+				break
+			}
+		}
+		nn = int(nExca[xi+1])
+		if nn < 0 {
+			goto ret0
+		}
+	}
+	if nn == 0 {
+		/* error ... attempt to resume parsing */
+		switch Errflag {
+		case 0: /* brand new error */
+			nlex.Error(nErrorMessage(nstate, ntoken))
+			Nerrs++
+			if nDebug >= 1 {
+				__yyfmt__.Printf("%s", nStatname(nstate))
+				__yyfmt__.Printf(" saw %s\n", nTokname(ntoken))
+			}
+			fallthrough
+
+		case 1, 2: /* incompletely recovered error ... try again */
+			Errflag = 3
+
+			/* find a state where "error" is a legal shift action */
+			for np >= 0 {
+				nn = int(nPact[nS[np].yys]) + nErrCode
+				if nn >= 0 && nn < nLast {
+					nstate = int(nAct[nn]) /* simulate a shift of "error" */
+					if int(nChk[nstate]) == nErrCode {
+						goto nstack
+					}
+				}
+
+				/* the current p has no shift on "error", pop stack */
+				if nDebug >= 2 {
+					__yyfmt__.Printf("error recovery pops state %d\n", nS[np].yys)
+				}
+				np--
+			}
+			/* there is no state on the stack with an error shift ... abort */
+			goto ret1
+
+		case 3: /* no shift yet; clobber input char */
+			if nDebug >= 2 {
+				__yyfmt__.Printf("error recovery discards %s\n", nTokname(ntoken))
+			}
+			if ntoken == nEofCode {
+				goto ret1
+			}
+			nrcvr.char = -1
+			ntoken = -1
+			goto nnewstate /* try again in the same state */
+		}
+	}
+
+	/* reduction by production nn */
+	if nDebug >= 2 {
+		__yyfmt__.Printf("reduce %v in:\n\t%v\n", nn, nStatname(nstate))
+	}
+
+	nnt := nn
+	npt := np
+	_ = npt // guard against "declared and not used"
+
+	np -= int(nR2[nn])
+	// np is now the index of $0. Perform the default action. Iff the
+	// reduced production is ε, $1 is possibly out of range.
+	if np+1 >= len(nS) {
+		nyys := make([]nSymType, len(nS)*2)
+		copy(nyys, nS)
+		nS = nyys
+	}
+	nVAL = nS[np+1]
+
+	/* consult goto table to find next state */
+	nn = int(nR1[nn])
+	ng := int(nPgo[nn])
+	nj := ng + nS[np].yys + 1
+
+	if nj >= nLast {
+		nstate = int(nAct[ng])
+	} else {
+		nstate = int(nAct[nj])
+		if int(nChk[nstate]) != -nn {
+			nstate = int(nAct[ng])
+		}
+	}
+	// dummy call; replaced with literal code
+	switch nnt {
+
+	case 1:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:37
+		{
+			Ast = ast.NLang{Functions: []ast.Function{nDollar[1].function}}
+		}
+	case 2:
+		nDollar = nS[npt-4 : npt+1]
+//line ./src/parser/n.y:43
+		{
+			nVAL.function = ast.Function{Name: nDollar[2].id}
+		}
+	case 3:
+		nDollar = nS[npt-5 : npt+1]
+//line ./src/parser/n.y:46
+		{
+			nVAL.function = ast.Function{Name: nDollar[2].id, Args: []ast.Argument{nDollar[4].argument}}
+		}
+	case 4:
+		nDollar = nS[npt-2 : npt+1]
+//line ./src/parser/n.y:52
+		{
+			nVAL.argument = ast.Argument{Name: nDollar[1].id, Type: nDollar[2].value_type}
+		}
+	case 5:
+		nDollar = nS[npt-3 : npt+1]
+//line ./src/parser/n.y:58
+		{
+			nVAL.assignment = ast.Assignment{Variable: nDollar[1].id, Value: nDollar[3].value}
+		}
+	case 6:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:64
+		{
+			nVAL.value = ast.Value{Type: ast.String, Value: nDollar[1].id}
+		}
+	case 7:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:67
+		{
+			nVAL.value = ast.Value{Type: ast.SQL, Value: nDollar[1].id}
+		}
+	case 8:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:75
+		{
+			nVAL.value_type = ast.String
+		}
+	case 9:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:76
+		{
+			nVAL.value_type = ast.Int
+		}
+	case 10:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:77
+		{
+			nVAL.value_type = ast.Float
+		}
+	case 11:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:78
+		{
+			nVAL.value_type = ast.Bool
+		}
+	}
+	goto nstack /* stack new state and value */
 }

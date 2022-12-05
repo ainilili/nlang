@@ -9,7 +9,7 @@
 %}
 %%
 
-[_a-zA-Z]+ 			{ return ID; }
+
 = 				{ return ASSIGN; }
 L?\"(\\.|\t|\n|\"|[^\\"\n])*\"	{ return STRING_LITERAL; }
 L?\`(\\.|\t|\n|\"|[^\\"\n])*\`	{ return SQL_LITERAL; }
@@ -23,6 +23,8 @@ L?\`(\\.|\t|\n|\"|[^\\"\n])*\`	{ return SQL_LITERAL; }
 "float" 			{ return FLOAT; }
 "string" 			{ return STRING; }
 "bool" 				{ return BOOL; }
+
+[_a-zA-Z]+ 			{ return ID; }
 
 %%
 

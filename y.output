@@ -1,10 +1,124 @@
 
-15 terminals, 8 nonterminals
-3 grammar rules, 0/16000 states
+state 0
+	$accept: .nlang $end 
+
+	FUNC  shift 3
+	.  error
+
+	function  goto 2
+	nlang  goto 1
+
+state 1
+	$accept:  nlang.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	nlang:  function.    (1)
+
+	.  reduce 1 (src line 36)
+
+
+state 3
+	function:  FUNC.ID '(' ')' 
+	function:  FUNC.ID '(' argument ')' 
+
+	ID  shift 4
+	.  error
+
+
+state 4
+	function:  FUNC ID.'(' ')' 
+	function:  FUNC ID.'(' argument ')' 
+
+	'('  shift 5
+	.  error
+
+
+state 5
+	function:  FUNC ID '('.')' 
+	function:  FUNC ID '('.argument ')' 
+
+	ID  shift 8
+	')'  shift 6
+	.  error
+
+	argument  goto 7
+
+state 6
+	function:  FUNC ID '(' ')'.    (2)
+
+	.  reduce 2 (src line 42)
+
+
+state 7
+	function:  FUNC ID '(' argument.')' 
+
+	')'  shift 9
+	.  error
+
+
+state 8
+	argument:  ID.value_type 
+
+	STRING  shift 11
+	INT  shift 12
+	FLOAT  shift 13
+	BOOL  shift 14
+	.  error
+
+	value_type  goto 10
+
+state 9
+	function:  FUNC ID '(' argument ')'.    (3)
+
+	.  reduce 3 (src line 46)
+
+
+state 10
+	argument:  ID value_type.    (4)
+
+	.  reduce 4 (src line 51)
+
+
+state 11
+	value_type:  STRING.    (8)
+
+	.  reduce 8 (src line 74)
+
+
+state 12
+	value_type:  INT.    (9)
+
+	.  reduce 9 (src line 76)
+
+
+state 13
+	value_type:  FLOAT.    (10)
+
+	.  reduce 10 (src line 77)
+
+
+state 14
+	value_type:  BOOL.    (11)
+
+	.  reduce 11 (src line 78)
+
+Rule not reduced: assignment:  ID ASSIGN value 
+Rule not reduced: value:  STRING_LITERAL 
+Rule not reduced: value:  SQL_LITERAL 
+
+15 terminals, 7 nonterminals
+12 grammar rules, 15/16000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
-0 working sets used
-memory: parser 0/240000
+56 working sets used
+memory: parser 3/240000
 0 extra closures
-0 shift entries, 0 exceptions
-0 goto entries
-0 entries saved by goto default
+10 shift entries, 1 exceptions
+6 goto entries
+-2 entries saved by goto default
+Optimizer space used: output 16/240000
+16 table entries, 2 zero
+maximum spread: 15, maximum offset: 15

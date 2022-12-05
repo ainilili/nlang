@@ -1,6 +1,7 @@
 package ast
 
 type ValueType int
+type ExpressionType int
 
 const (
 	_ ValueType = iota
@@ -9,6 +10,8 @@ const (
 	Float
 	Bool
 	SQL
+
+	_ ExpressionType = iota
 )
 
 type NLang struct {
@@ -27,8 +30,8 @@ type Argument struct {
 }
 
 type Assignment struct {
-	Variable   string
-	Expression Expression
+	Variable string
+	Value    Value
 }
 
 type Value struct {

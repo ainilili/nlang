@@ -36,8 +36,6 @@ func Parse(nlex nLexer) int {
 	return nParse(nlex)
 }
 
-// The parser calls this method to get each new token. This
-// implementation returns operators and NUM.
 func (p *nLex) Lex(yylval *nSymType) int {
 	p.lastErr = nil
 
@@ -62,9 +60,16 @@ func (p *nLex) Lex(yylval *nSymType) int {
 		return FUNC
 	case C.EOL:
 		return EOL
+	case C.STRING:
+		return STRING
+	case C.INT:
+		return INT
+	case C.FLOAT:
+		return FLOAT
+	case C.BOOL:
+		return BOOL
 	}
-
-	return 0 // eof
+	return int(tok)
 }
 
 // The parser calls this method on a parse error.

@@ -367,11 +367,11 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[46] =
     {   0,
-        0,    0,   14,   13,    5,   13,    6,    7,    2,    1,
-        1,   13,    1,    1,    1,    1,    0,    0,    3,    0,
-        1,    0,    0,    0,    0,    0,    4,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    0
+        0,    0,   14,   13,    4,   13,    5,    6,    1,   12,
+       12,   13,   12,   12,   12,   12,    0,    0,    2,    0,
+       12,    0,    0,    0,    0,    0,    3,   12,   12,   12,
+       12,   12,   12,   12,   12,    8,   12,   11,   12,    7,
+       12,    9,   12,   10,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -704,7 +704,8 @@ YY_DECL
 #line 10 "./src/parser/n.l"
 
 
-#line 707 "./src/parser/n.lex.c"
+
+#line 708 "./src/parser/n.lex.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -763,73 +764,73 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 12 "./src/parser/n.l"
-{ return ID; }
-	YY_BREAK
-case 2:
-YY_RULE_SETUP
 #line 13 "./src/parser/n.l"
 { return ASSIGN; }
 	YY_BREAK
-case 3:
-/* rule 3 can match eol */
+case 2:
+/* rule 2 can match eol */
 YY_RULE_SETUP
 #line 14 "./src/parser/n.l"
 { return STRING_LITERAL; }
 	YY_BREAK
-case 4:
-/* rule 4 can match eol */
+case 3:
+/* rule 3 can match eol */
 YY_RULE_SETUP
 #line 15 "./src/parser/n.l"
 { return SQL_LITERAL; }
 	YY_BREAK
-case 5:
-/* rule 5 can match eol */
+case 4:
+/* rule 4 can match eol */
 YY_RULE_SETUP
 #line 16 "./src/parser/n.l"
 { return EOL; }
 	YY_BREAK
-case 6:
+case 5:
 YY_RULE_SETUP
 #line 17 "./src/parser/n.l"
 { return '('; }
 	YY_BREAK
-case 7:
+case 6:
 YY_RULE_SETUP
 #line 18 "./src/parser/n.l"
 { return ')'; }
 	YY_BREAK
-case 8:
+case 7:
 YY_RULE_SETUP
 #line 21 "./src/parser/n.l"
 { return FUNC;}
 	YY_BREAK
-case 9:
+case 8:
 YY_RULE_SETUP
 #line 22 "./src/parser/n.l"
 { return INT; }
 	YY_BREAK
-case 10:
+case 9:
 YY_RULE_SETUP
 #line 23 "./src/parser/n.l"
 { return FLOAT; }
 	YY_BREAK
-case 11:
+case 10:
 YY_RULE_SETUP
 #line 24 "./src/parser/n.l"
 { return STRING; }
 	YY_BREAK
-case 12:
+case 11:
 YY_RULE_SETUP
 #line 25 "./src/parser/n.l"
 { return BOOL; }
 	YY_BREAK
-case 13:
+case 12:
 YY_RULE_SETUP
 #line 27 "./src/parser/n.l"
+{ return ID; }
+	YY_BREAK
+case 13:
+YY_RULE_SETUP
+#line 29 "./src/parser/n.l"
 ECHO;
 	YY_BREAK
-#line 832 "./src/parser/n.lex.c"
+#line 833 "./src/parser/n.lex.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1834,7 +1835,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 27 "./src/parser/n.l"
+#line 29 "./src/parser/n.l"
 
 
 

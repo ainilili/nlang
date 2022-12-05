@@ -8,48 +8,57 @@
 package parser
 
 import (
-	"fmt"
 	"nlang/src/ast"
 )
-
+var Ast ast.NLang
 %}
 
 %union {
 	id    string
 	value ast.Value
-	valueType ast.ValueType
+	value_type ast.ValueType
 	assignment ast.Assignment
 	argument ast.Argument
+	function ast.Function
 }
 
 %type <value> value
 %type <assignment> assignment
+%type <value_type> value_type
+%type <function> function
+%type <argument> argument
+
 %token <id> ID STRING_LITERAL SQL_LITERAL
-%token ASSIGN FUNC EOL STRING INT FLOAT BOOL
+%token ASSIGN FUNC EOL STRING INT FLOAT BOOL '(' ')'
 
 
 %%
 nlang
-	: assignment {
-		fmt.Println($1)
+	: function {
+		Ast = ast.NLang{Functions: []ast.Function{$1}}
 	}
 	;
 
 function
-	: func ID '(' argument ')' {
-
+	: FUNC ID '(' ')'{
+		$$ = ast.Function{Name: $2}
 	}
-
-
-
-assignment
-	: ID ASSIGN expression{
-		$$ = ast.Assignment{Parameter: $1, Expression: $3}
+	| FUNC ID '(' argument ')'{
+		$$ = ast.Function{Name: $2, Args: []ast.Argument{$4}}
 	}
 	;
 
 argument
-	: ID value_type
+	: ID value_type {
+		$$ = ast.Argument{Name: $1, Type: $2}
+	}
+	;
+
+assignment
+	: ID ASSIGN value{
+		$$ = ast.Assignment{Variable: $1, Value: $3}
+	}
+	;
 
 value
 	: STRING_LITERAL {
@@ -60,9 +69,12 @@ value
 	}
 	;
 
+
+
 value_type
 	: STRING { $$ = ast.String }
 	| INT { $$ = ast.Int }
 	| FLOAT { $$ = ast.Float }
 	| BOOL { $$ = ast.Bool }
+	;
 %%
