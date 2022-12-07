@@ -1,21 +1,21 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
 	"nlang/src/ast"
 	"nlang/src/parser"
 )
 
+var (
+	//go:embed test.n
+	code []byte
+)
+
 func main() {
 	//str := "connect abc\na = `select * from user`"
 	//str := "a = \"ab\t \n\"\"c\""
-	str := `func hello(a int, b string){
-	a = "abc"
-	b = "23"
-	c = 100
-}`
-	parser.Parse(parser.NewNLex([]byte(str)))
-
+	parser.Parse(parser.NewNLex(code))
 	for _, fn := range parser.Ast.Functions {
 		fmt.Print("func ", fn.Name, "(")
 		for _, arg := range fn.Args {

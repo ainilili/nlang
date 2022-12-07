@@ -29,6 +29,7 @@ L?\`(\\.|\"|[^\\"\n])*\`	{ return SQL_LITERAL; }
 "float" 			{ return FLOAT; }
 "string" 			{ return STRING; }
 "bool" 				{ return BOOL; }
+"sql"				{ return SQL; }
 
 [_a-zA-Z]+ 			{ return ID; }
 

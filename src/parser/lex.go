@@ -73,6 +73,8 @@ func (p *nLex) Lex(yylval *nSymType) int {
 		return FLOAT
 	case C.BOOL:
 		return BOOL
+	case C.SQL:
+		return SQL
 	}
 	return int(tok)
 }

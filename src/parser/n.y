@@ -38,7 +38,7 @@ var Ast ast.NLang
 %token <id> ID STRING_LITERAL SQL_LITERAL
 %token <number> INT_LITERAL
 
-%token ASSIGN FUNC EOL STRING INT FLOAT BOOL
+%token ASSIGN FUNC EOL STRING INT FLOAT BOOL SQL
 
 
 %%
@@ -129,5 +129,6 @@ value_type
 	| INT { $$ = ast.IntType }
 	| FLOAT { $$ = ast.FloatType }
 	| BOOL { $$ = ast.BoolType }
+	| SQL { $$ = ast.SQLType }
 	;
 %%

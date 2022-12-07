@@ -15,6 +15,7 @@ enum {
 	STRING = 405,
 	FLOAT = 406,
 	BOOL = 407,
+	SQL = 408,
 
 
 	STRING_LITERAL = 1001,

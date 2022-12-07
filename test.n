@@ -1,0 +1,6 @@
+func hello(a int, b string){
+	a = "abc"
+	b = "23"
+	c = 100
+	d = `efg`
+}

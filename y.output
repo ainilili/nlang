@@ -39,6 +39,7 @@ state 4
 	INT  shift 9
 	FLOAT  shift 10
 	BOOL  shift 11
+	SQL  shift 12
 	.  reduce 4 (src line 60)
 
 	value_type  goto 7
@@ -47,7 +48,7 @@ state 5
 	prefix_function:  FUNC.ID '(' ')' 
 	prefix_function:  FUNC.ID '(' argument_list ')' 
 
-	ID  shift 12
+	ID  shift 13
 	.  error
 
 
@@ -55,8 +56,8 @@ state 6
 	function:  postfix_function '{'.'}' 
 	function:  postfix_function '{'.EOL block_list EOL '}' 
 
-	EOL  shift 14
-	'}'  shift 13
+	EOL  shift 15
+	'}'  shift 14
 	.  error
 
 
@@ -91,191 +92,198 @@ state 11
 
 
 state 12
-	prefix_function:  FUNC ID.'(' ')' 
-	prefix_function:  FUNC ID.'(' argument_list ')' 
+	value_type:  SQL.    (22)
 
-	'('  shift 15
-	.  error
+	.  reduce 22 (src line 132)
 
 
 state 13
+	prefix_function:  FUNC ID.'(' ')' 
+	prefix_function:  FUNC ID.'(' argument_list ')' 
+
+	'('  shift 16
+	.  error
+
+
+state 14
 	function:  postfix_function '{' '}'.    (2)
 
 	.  reduce 2 (src line 51)
 
 
-state 14
+state 15
 	function:  postfix_function '{' EOL.block_list EOL '}' 
 
-	ID  shift 19
+	ID  shift 20
 	.  error
 
-	assignment  goto 18
-	block  goto 17
-	block_list  goto 16
+	assignment  goto 19
+	block  goto 18
+	block_list  goto 17
 
-state 15
+state 16
 	prefix_function:  FUNC ID '('.')' 
 	prefix_function:  FUNC ID '('.argument_list ')' 
 
-	ID  shift 23
-	')'  shift 20
+	ID  shift 24
+	')'  shift 21
 	.  error
 
-	argument  goto 22
-	argument_list  goto 21
+	argument  goto 23
+	argument_list  goto 22
 
-state 16
+state 17
 	function:  postfix_function '{' EOL block_list.EOL '}' 
 	block_list:  block_list.EOL block 
 
-	EOL  shift 24
+	EOL  shift 25
 	.  error
 
 
-state 17
+state 18
 	block_list:  block.    (8)
 
 	.  reduce 8 (src line 79)
 
 
-state 18
+state 19
 	block:  assignment.    (10)
 
 	.  reduce 10 (src line 88)
 
 
-state 19
+state 20
 	assignment:  ID.ASSIGN value 
 
-	ASSIGN  shift 25
+	ASSIGN  shift 26
 	.  error
 
 
-state 20
+state 21
 	prefix_function:  FUNC ID '(' ')'.    (6)
 
 	.  reduce 6 (src line 70)
 
 
-state 21
+state 22
 	prefix_function:  FUNC ID '(' argument_list.')' 
 	argument_list:  argument_list.',' argument 
 
-	')'  shift 26
-	','  shift 27
+	')'  shift 27
+	','  shift 28
 	.  error
 
 
-state 22
+state 23
 	argument_list:  argument.    (11)
 
 	.  reduce 11 (src line 94)
 
 
-state 23
+state 24
 	argument:  ID.value_type 
 
 	STRING  shift 8
 	INT  shift 9
 	FLOAT  shift 10
 	BOOL  shift 11
+	SQL  shift 12
 	.  error
 
-	value_type  goto 28
+	value_type  goto 29
 
-state 24
+state 25
 	function:  postfix_function '{' EOL block_list EOL.'}' 
 	block_list:  block_list EOL.block 
 
-	ID  shift 19
-	'}'  shift 29
+	ID  shift 20
+	'}'  shift 30
 	.  error
 
-	assignment  goto 18
-	block  goto 30
-
-state 25
-	assignment:  ID ASSIGN.value 
-
-	STRING_LITERAL  shift 32
-	SQL_LITERAL  shift 33
-	INT_LITERAL  shift 34
-	.  error
-
-	value  goto 31
+	assignment  goto 19
+	block  goto 31
 
 state 26
+	assignment:  ID ASSIGN.value 
+
+	STRING_LITERAL  shift 33
+	SQL_LITERAL  shift 34
+	INT_LITERAL  shift 35
+	.  error
+
+	value  goto 32
+
+state 27
 	prefix_function:  FUNC ID '(' argument_list ')'.    (7)
 
 	.  reduce 7 (src line 74)
 
 
-state 27
+state 28
 	argument_list:  argument_list ','.argument 
 
-	ID  shift 23
+	ID  shift 24
 	.  error
 
-	argument  goto 35
+	argument  goto 36
 
-state 28
+state 29
 	argument:  ID value_type.    (13)
 
 	.  reduce 13 (src line 103)
 
 
-state 29
+state 30
 	function:  postfix_function '{' EOL block_list EOL '}'.    (3)
 
 	.  reduce 3 (src line 55)
 
 
-state 30
+state 31
 	block_list:  block_list EOL block.    (9)
 
 	.  reduce 9 (src line 83)
 
 
-state 31
+state 32
 	assignment:  ID ASSIGN value.    (14)
 
 	.  reduce 14 (src line 109)
 
 
-state 32
+state 33
 	value:  STRING_LITERAL.    (15)
 
 	.  reduce 15 (src line 115)
 
 
-state 33
+state 34
 	value:  SQL_LITERAL.    (16)
 
 	.  reduce 16 (src line 119)
 
 
-state 34
+state 35
 	value:  INT_LITERAL.    (17)
 
 	.  reduce 17 (src line 122)
 
 
-state 35
+state 36
 	argument_list:  argument_list ',' argument.    (12)
 
 	.  reduce 12 (src line 98)
 
 
-19 terminals, 12 nonterminals
-22 grammar rules, 36/16000 states
+20 terminals, 12 nonterminals
+23 grammar rules, 37/16000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
 61 working sets used
 memory: parser 16/240000
-4 extra closures
-27 shift entries, 1 exceptions
+5 extra closures
+29 shift entries, 1 exceptions
 14 goto entries
 1 entries saved by goto default
-Optimizer space used: output 37/240000
-37 table entries, 0 zero
-maximum spread: 19, maximum offset: 27
+Optimizer space used: output 38/240000
+38 table entries, 0 zero
+maximum spread: 20, maximum offset: 28
