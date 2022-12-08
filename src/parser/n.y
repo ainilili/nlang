@@ -17,6 +17,7 @@ var Ast ast.NLang
 	id    string
 	number int
 	value ast.Value
+	value_list []ast.Value
 	value_type ast.ValueType
 	assignment ast.Assignment
 	argument_list []ast.Argument
@@ -24,6 +25,7 @@ var Ast ast.NLang
 	function ast.Function
 	block ast.Block
 	block_list []ast.Block
+	caller ast.Caller
 }
 
 %type <value> value
@@ -34,6 +36,8 @@ var Ast ast.NLang
 %type <argument_list> argument_list
 %type <block> block
 %type <block_list> block_list
+%type <caller> caller
+%type <value_list> value_list
 
 %token <id> ID STRING_LITERAL SQL_LITERAL
 %token <number> INT_LITERAL
@@ -122,6 +126,18 @@ value
 	| INT_LITERAL {
 		$$ = ast.Value{Type: ast.IntType, Value:$1}
 	}
+	| caller {
+		$$ = ast.Value{Type: ast.CallerType, Value: $1}
+	}
+	;
+
+value_list
+	: value {
+		$$ = []ast.Value{$1}
+	}
+	| value_list ',' value {
+		$$ = append($1, $3)
+	}
 	;
 
 value_type
@@ -130,5 +146,14 @@ value_type
 	| FLOAT { $$ = ast.FloatType }
 	| BOOL { $$ = ast.BoolType }
 	| SQL { $$ = ast.SQLType }
+	;
+
+caller
+	: ID '(' ')'{
+		$$ = ast.Caller{Name: $1}
+	}
+	| ID '(' value_list ')'{
+		$$ = ast.Caller{Name: $1, Values: $3}
+        }
 	;
 %%

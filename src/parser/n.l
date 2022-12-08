@@ -23,7 +23,6 @@ L?\"(\\.|\"|[^\\"\n])*\"	{ return STRING_LITERAL; }
 L?\`(\\.|\"|[^\\"\n])*\`	{ return SQL_LITERAL; }
 
 
-
 "func" 				{ return FUNC;}
 "int" 				{ return INT; }
 "float" 			{ return FLOAT; }

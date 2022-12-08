@@ -3,4 +3,5 @@ func hello(a int, b string){
 	b = "23"
 	c = 100
 	d = `efg`
+	e = hell("hello")
 }

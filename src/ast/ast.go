@@ -10,6 +10,7 @@ const (
 	FloatType
 	BoolType
 	SQLType
+	CallerType
 
 	_ BlockType = iota
 	AssignmentBlock
@@ -44,4 +45,9 @@ type Value struct {
 type Block struct {
 	Type  BlockType
 	Value interface{}
+}
+
+type Caller struct {
+	Name   string
+	Values []Value
 }

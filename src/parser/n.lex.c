@@ -817,42 +817,42 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 27 "./src/parser/n.l"
+#line 26 "./src/parser/n.l"
 { return FUNC;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 28 "./src/parser/n.l"
+#line 27 "./src/parser/n.l"
 { return INT; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 29 "./src/parser/n.l"
+#line 28 "./src/parser/n.l"
 { return FLOAT; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 30 "./src/parser/n.l"
+#line 29 "./src/parser/n.l"
 { return STRING; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 31 "./src/parser/n.l"
+#line 30 "./src/parser/n.l"
 { return BOOL; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 32 "./src/parser/n.l"
+#line 31 "./src/parser/n.l"
 { return SQL; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 34 "./src/parser/n.l"
+#line 33 "./src/parser/n.l"
 { return ID; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 36 "./src/parser/n.l"
+#line 35 "./src/parser/n.l"
 ECHO;
 	YY_BREAK
 #line 858 "./src/parser/n.lex.c"
@@ -1860,7 +1860,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 36 "./src/parser/n.l"
+#line 35 "./src/parser/n.l"
 
 
 
