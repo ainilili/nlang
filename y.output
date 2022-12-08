@@ -2,12 +2,13 @@
 state 0
 	$accept: .nlang $end 
 
-	FUNC  shift 5
+	FUNC  shift 6
 	.  error
 
-	function  goto 2
-	prefix_function  goto 4
-	postfix_function  goto 3
+	function  goto 3
+	prefix_function  goto 5
+	postfix_function  goto 4
+	function_list  goto 2
 	nlang  goto 1
 
 state 1
@@ -18,359 +19,383 @@ state 1
 
 
 state 2
-	nlang:  function.    (1)
+	nlang:  function_list.    (1)
+	function_list:  function_list.EOL function 
 
-	.  reduce 1 (src line 49)
+	EOL  shift 7
+	.  reduce 1 (src line 51)
 
 
 state 3
-	function:  postfix_function.'{' '}' 
-	function:  postfix_function.'{' EOL block_list EOL '}' 
+	function_list:  function.    (2)
 
-	'{'  shift 6
-	.  error
+	.  reduce 2 (src line 57)
 
 
 state 4
-	postfix_function:  prefix_function.    (4)
-	postfix_function:  prefix_function.value_type 
+	function:  postfix_function.'{' '}' 
+	function:  postfix_function.'{' EOL block_list EOL '}' 
 
-	STRING  shift 8
-	INT  shift 9
-	FLOAT  shift 10
-	BOOL  shift 11
-	SQL  shift 12
-	.  reduce 4 (src line 64)
-
-	value_type  goto 7
-
-state 5
-	prefix_function:  FUNC.ID '(' ')' 
-	prefix_function:  FUNC.ID '(' argument_list ')' 
-
-	ID  shift 13
+	'{'  shift 8
 	.  error
 
 
-state 6
-	function:  postfix_function '{'.'}' 
-	function:  postfix_function '{'.EOL block_list EOL '}' 
+state 5
+	postfix_function:  prefix_function.    (6)
+	postfix_function:  prefix_function.value_type 
 
-	EOL  shift 15
-	'}'  shift 14
+	STRING  shift 10
+	INT  shift 11
+	FLOAT  shift 12
+	BOOL  shift 13
+	SQL  shift 14
+	.  reduce 6 (src line 75)
+
+	value_type  goto 9
+
+state 6
+	prefix_function:  FUNC.ID '(' ')' 
+	prefix_function:  FUNC.ID '(' argument_list ')' 
+
+	ID  shift 15
 	.  error
 
 
 state 7
-	postfix_function:  prefix_function value_type.    (5)
+	function_list:  function_list EOL.function 
 
-	.  reduce 5 (src line 68)
+	FUNC  shift 6
+	.  error
 
+	function  goto 16
+	prefix_function  goto 5
+	postfix_function  goto 4
 
 state 8
-	value_type:  STRING.    (22)
+	function:  postfix_function '{'.'}' 
+	function:  postfix_function '{'.EOL block_list EOL '}' 
 
-	.  reduce 22 (src line 146)
+	EOL  shift 18
+	'}'  shift 17
+	.  error
 
 
 state 9
-	value_type:  INT.    (23)
+	postfix_function:  prefix_function value_type.    (7)
 
-	.  reduce 23 (src line 148)
+	.  reduce 7 (src line 79)
 
 
 state 10
-	value_type:  FLOAT.    (24)
+	value_type:  STRING.    (24)
 
-	.  reduce 24 (src line 149)
+	.  reduce 24 (src line 157)
 
 
 state 11
-	value_type:  BOOL.    (25)
+	value_type:  INT.    (25)
 
-	.  reduce 25 (src line 150)
+	.  reduce 25 (src line 159)
 
 
 state 12
-	value_type:  SQL.    (26)
+	value_type:  FLOAT.    (26)
 
-	.  reduce 26 (src line 151)
+	.  reduce 26 (src line 160)
 
 
 state 13
-	prefix_function:  FUNC ID.'(' ')' 
-	prefix_function:  FUNC ID.'(' argument_list ')' 
+	value_type:  BOOL.    (27)
 
-	'('  shift 16
-	.  error
+	.  reduce 27 (src line 161)
 
 
 state 14
-	function:  postfix_function '{' '}'.    (2)
+	value_type:  SQL.    (28)
 
-	.  reduce 2 (src line 55)
+	.  reduce 28 (src line 162)
 
 
 state 15
-	function:  postfix_function '{' EOL.block_list EOL '}' 
+	prefix_function:  FUNC ID.'(' ')' 
+	prefix_function:  FUNC ID.'(' argument_list ')' 
 
-	ID  shift 21
+	'('  shift 19
 	.  error
 
-	assignment  goto 19
-	block  goto 18
-	block_list  goto 17
-	caller  goto 20
 
 state 16
-	prefix_function:  FUNC ID '('.')' 
-	prefix_function:  FUNC ID '('.argument_list ')' 
+	function_list:  function_list EOL function.    (3)
 
-	ID  shift 25
-	')'  shift 22
-	.  error
+	.  reduce 3 (src line 61)
 
-	argument  goto 24
-	argument_list  goto 23
 
 state 17
-	function:  postfix_function '{' EOL block_list.EOL '}' 
-	block_list:  block_list.EOL block 
+	function:  postfix_function '{' '}'.    (4)
 
-	EOL  shift 26
-	.  error
+	.  reduce 4 (src line 66)
 
 
 state 18
-	block_list:  block.    (8)
+	function:  postfix_function '{' EOL.block_list EOL '}' 
 
-	.  reduce 8 (src line 83)
+	ID  shift 24
+	.  error
 
+	assignment  goto 22
+	block  goto 21
+	block_list  goto 20
+	caller  goto 23
 
 state 19
-	block:  assignment.    (10)
+	prefix_function:  FUNC ID '('.')' 
+	prefix_function:  FUNC ID '('.argument_list ')' 
 
-	.  reduce 10 (src line 92)
+	ID  shift 28
+	')'  shift 25
+	.  error
 
+	argument  goto 27
+	argument_list  goto 26
 
 state 20
-	block:  caller.    (11)
+	function:  postfix_function '{' EOL block_list.EOL '}' 
+	block_list:  block_list.EOL block 
 
-	.  reduce 11 (src line 96)
+	EOL  shift 29
+	.  error
 
 
 state 21
+	block_list:  block.    (10)
+
+	.  reduce 10 (src line 94)
+
+
+state 22
+	block:  assignment.    (12)
+
+	.  reduce 12 (src line 103)
+
+
+state 23
+	block:  caller.    (13)
+
+	.  reduce 13 (src line 107)
+
+
+state 24
 	assignment:  ID.ASSIGN value 
 	caller:  ID.'(' ')' 
 	caller:  ID.'(' value_list ')' 
 
-	ASSIGN  shift 27
-	'('  shift 28
+	ASSIGN  shift 30
+	'('  shift 31
 	.  error
-
-
-state 22
-	prefix_function:  FUNC ID '(' ')'.    (6)
-
-	.  reduce 6 (src line 74)
-
-
-state 23
-	prefix_function:  FUNC ID '(' argument_list.')' 
-	argument_list:  argument_list.',' argument 
-
-	')'  shift 29
-	','  shift 30
-	.  error
-
-
-state 24
-	argument_list:  argument.    (12)
-
-	.  reduce 12 (src line 101)
 
 
 state 25
-	argument:  ID.value_type 
+	prefix_function:  FUNC ID '(' ')'.    (8)
 
-	STRING  shift 8
-	INT  shift 9
-	FLOAT  shift 10
-	BOOL  shift 11
-	SQL  shift 12
-	.  error
+	.  reduce 8 (src line 85)
 
-	value_type  goto 31
 
 state 26
+	prefix_function:  FUNC ID '(' argument_list.')' 
+	argument_list:  argument_list.',' argument 
+
+	')'  shift 32
+	','  shift 33
+	.  error
+
+
+state 27
+	argument_list:  argument.    (14)
+
+	.  reduce 14 (src line 112)
+
+
+state 28
+	argument:  ID.value_type 
+
+	STRING  shift 10
+	INT  shift 11
+	FLOAT  shift 12
+	BOOL  shift 13
+	SQL  shift 14
+	.  error
+
+	value_type  goto 34
+
+state 29
 	function:  postfix_function '{' EOL block_list EOL.'}' 
 	block_list:  block_list EOL.block 
 
-	ID  shift 21
-	'}'  shift 32
+	ID  shift 24
+	'}'  shift 35
 	.  error
 
-	assignment  goto 19
-	block  goto 33
-	caller  goto 20
+	assignment  goto 22
+	block  goto 36
+	caller  goto 23
 
-state 27
+state 30
 	assignment:  ID ASSIGN.value 
 
-	ID  shift 39
-	STRING_LITERAL  shift 35
-	SQL_LITERAL  shift 36
-	INT_LITERAL  shift 37
+	ID  shift 42
+	STRING_LITERAL  shift 38
+	SQL_LITERAL  shift 39
+	INT_LITERAL  shift 40
 	.  error
 
-	value  goto 34
-	caller  goto 38
+	value  goto 37
+	caller  goto 41
 
-state 28
+state 31
 	caller:  ID '('.')' 
 	caller:  ID '('.value_list ')' 
 
-	ID  shift 39
-	STRING_LITERAL  shift 35
-	SQL_LITERAL  shift 36
-	INT_LITERAL  shift 37
-	')'  shift 40
+	ID  shift 42
+	STRING_LITERAL  shift 38
+	SQL_LITERAL  shift 39
+	INT_LITERAL  shift 40
+	')'  shift 43
 	.  error
 
-	value  goto 42
-	caller  goto 38
-	value_list  goto 41
-
-state 29
-	prefix_function:  FUNC ID '(' argument_list ')'.    (7)
-
-	.  reduce 7 (src line 78)
-
-
-state 30
-	argument_list:  argument_list ','.argument 
-
-	ID  shift 25
-	.  error
-
-	argument  goto 43
-
-state 31
-	argument:  ID value_type.    (14)
-
-	.  reduce 14 (src line 110)
-
+	value  goto 45
+	caller  goto 41
+	value_list  goto 44
 
 state 32
-	function:  postfix_function '{' EOL block_list EOL '}'.    (3)
+	prefix_function:  FUNC ID '(' argument_list ')'.    (9)
 
-	.  reduce 3 (src line 59)
+	.  reduce 9 (src line 89)
 
 
 state 33
-	block_list:  block_list EOL block.    (9)
+	argument_list:  argument_list ','.argument 
 
-	.  reduce 9 (src line 87)
+	ID  shift 28
+	.  error
 
+	argument  goto 46
 
 state 34
-	assignment:  ID ASSIGN value.    (15)
+	argument:  ID value_type.    (16)
+
+	.  reduce 16 (src line 121)
+
+
+state 35
+	function:  postfix_function '{' EOL block_list EOL '}'.    (5)
+
+	.  reduce 5 (src line 70)
+
+
+state 36
+	block_list:  block_list EOL block.    (11)
+
+	.  reduce 11 (src line 98)
+
+
+state 37
+	assignment:  ID ASSIGN value.    (17)
+
+	.  reduce 17 (src line 127)
+
+
+state 38
+	value:  STRING_LITERAL.    (18)
+
+	.  reduce 18 (src line 133)
+
+
+state 39
+	value:  SQL_LITERAL.    (19)
+
+	.  reduce 19 (src line 137)
+
+
+state 40
+	value:  INT_LITERAL.    (20)
+
+	.  reduce 20 (src line 140)
+
+
+state 41
+	value:  caller.    (21)
+
+	.  reduce 21 (src line 143)
+
+
+state 42
+	caller:  ID.'(' ')' 
+	caller:  ID.'(' value_list ')' 
+
+	'('  shift 31
+	.  error
+
+
+state 43
+	caller:  ID '(' ')'.    (29)
+
+	.  reduce 29 (src line 165)
+
+
+state 44
+	value_list:  value_list.',' value 
+	caller:  ID '(' value_list.')' 
+
+	')'  shift 48
+	','  shift 47
+	.  error
+
+
+state 45
+	value_list:  value.    (22)
+
+	.  reduce 22 (src line 148)
+
+
+state 46
+	argument_list:  argument_list ',' argument.    (15)
 
 	.  reduce 15 (src line 116)
 
 
-state 35
-	value:  STRING_LITERAL.    (16)
-
-	.  reduce 16 (src line 122)
-
-
-state 36
-	value:  SQL_LITERAL.    (17)
-
-	.  reduce 17 (src line 126)
-
-
-state 37
-	value:  INT_LITERAL.    (18)
-
-	.  reduce 18 (src line 129)
-
-
-state 38
-	value:  caller.    (19)
-
-	.  reduce 19 (src line 132)
-
-
-state 39
-	caller:  ID.'(' ')' 
-	caller:  ID.'(' value_list ')' 
-
-	'('  shift 28
-	.  error
-
-
-state 40
-	caller:  ID '(' ')'.    (27)
-
-	.  reduce 27 (src line 154)
-
-
-state 41
-	value_list:  value_list.',' value 
-	caller:  ID '(' value_list.')' 
-
-	')'  shift 45
-	','  shift 44
-	.  error
-
-
-state 42
-	value_list:  value.    (20)
-
-	.  reduce 20 (src line 137)
-
-
-state 43
-	argument_list:  argument_list ',' argument.    (13)
-
-	.  reduce 13 (src line 105)
-
-
-state 44
+state 47
 	value_list:  value_list ','.value 
 
-	ID  shift 39
-	STRING_LITERAL  shift 35
-	SQL_LITERAL  shift 36
-	INT_LITERAL  shift 37
+	ID  shift 42
+	STRING_LITERAL  shift 38
+	SQL_LITERAL  shift 39
+	INT_LITERAL  shift 40
 	.  error
 
-	value  goto 46
-	caller  goto 38
+	value  goto 49
+	caller  goto 41
 
-state 45
-	caller:  ID '(' value_list ')'.    (28)
+state 48
+	caller:  ID '(' value_list ')'.    (30)
 
-	.  reduce 28 (src line 158)
-
-
-state 46
-	value_list:  value_list ',' value.    (21)
-
-	.  reduce 21 (src line 141)
+	.  reduce 30 (src line 169)
 
 
-20 terminals, 14 nonterminals
-29 grammar rules, 47/16000 states
+state 49
+	value_list:  value_list ',' value.    (23)
+
+	.  reduce 23 (src line 152)
+
+
+20 terminals, 15 nonterminals
+31 grammar rules, 50/16000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
-63 working sets used
-memory: parser 28/240000
+64 working sets used
+memory: parser 31/240000
 9 extra closures
-43 shift entries, 1 exceptions
-20 goto entries
-3 entries saved by goto default
-Optimizer space used: output 54/240000
-54 table entries, 0 zero
-maximum spread: 20, maximum offset: 44
+45 shift entries, 1 exceptions
+22 goto entries
+5 entries saved by goto default
+Optimizer space used: output 57/240000
+57 table entries, 0 zero
+maximum spread: 20, maximum offset: 47

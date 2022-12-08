@@ -6,3 +6,13 @@ func hello(a int, b string){
 	e = hell("hello")
 	print(2)
 }
+
+
+func world(a int, b string){
+	a = "abc"
+	b = "23"
+	c = 100
+	d = `efg`
+	e = hell("hello")
+	print(2)
+}

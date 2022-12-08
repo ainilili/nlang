@@ -11,7 +11,7 @@
 
 
 = 				{ return ASSIGN; }
-\n				{ return EOL; }
+\n+				{ return EOL; }
 "("				{ return '('; }
 ")"				{ return ')'; }
 ","				{ return ','; }
