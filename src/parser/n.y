@@ -93,6 +93,9 @@ block
 	: assignment{
 		$$ = ast.Block{Type: ast.AssignmentBlock, Value: $1}
 	}
+	| caller {
+		$$ = ast.Block{Type: ast.CallerBlock, Value: $1}
+	}
 	;
 
 argument_list

@@ -14,6 +14,7 @@ const (
 
 	_ BlockType = iota
 	AssignmentBlock
+	CallerBlock
 )
 
 type NLang struct {

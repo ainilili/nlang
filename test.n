@@ -4,4 +4,5 @@ func hello(a int, b string){
 	c = 100
 	d = `efg`
 	e = hell("hello")
+	print(2)
 }
