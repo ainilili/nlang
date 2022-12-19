@@ -15,20 +15,22 @@ var Ast ast.NLang
 
 //line ./src/parser/n.y:16
 type nSymType struct {
-	yys           int
-	id            string
-	number        int
-	value         ast.Value
-	value_list    []ast.Value
-	value_type    ast.ValueType
-	assignment    ast.Assignment
-	argument_list []ast.Argument
-	argument      ast.Argument
-	function      ast.Function
-	function_list []ast.Function
-	block         ast.Block
-	block_list    []ast.Block
-	caller        ast.Caller
+	yys            int
+	id             string
+	number         int
+	value          ast.Value
+	value_list     []ast.Value
+	value_type     ast.ValueType
+	assignment     ast.Assignment
+	argument_list  []ast.Argument
+	argument       ast.Argument
+	function       ast.Function
+	function_list  []ast.Function
+	block          ast.Block
+	block_list     []ast.Block
+	caller         ast.Caller
+	statement      ast.Statement
+	statement_list []ast.Statement
 }
 
 const ID = 57346
@@ -73,7 +75,7 @@ const nEofCode = 1
 const nErrCode = 2
 const nInitialStackSize = 16
 
-//line ./src/parser/n.y:173
+//line ./src/parser/n.y:185
 
 //line yacctab:1
 var nExca = [...]int8{
@@ -84,58 +86,62 @@ var nExca = [...]int8{
 
 const nPrivate = 57344
 
-const nLast = 57
+const nLast = 62
 
 var nAct = [...]int8{
-	37, 27, 9, 41, 21, 42, 38, 39, 40, 48,
-	47, 32, 33, 28, 10, 11, 12, 13, 14, 30,
-	43, 6, 23, 31, 24, 19, 8, 29, 25, 31,
-	1, 34, 45, 23, 36, 46, 18, 35, 42, 38,
-	39, 40, 7, 17, 3, 28, 24, 15, 49, 2,
-	44, 20, 16, 26, 4, 5, 22,
+	23, 38, 27, 5, 31, 39, 13, 28, 24, 25,
+	26, 50, 49, 44, 45, 14, 15, 16, 17, 18,
+	36, 12, 41, 35, 34, 33, 32, 29, 22, 3,
+	11, 35, 40, 7, 10, 21, 43, 47, 9, 12,
+	20, 39, 34, 33, 32, 48, 46, 51, 19, 1,
+	52, 28, 24, 25, 26, 2, 42, 30, 37, 6,
+	8, 4,
 }
 
 var nPact = [...]int16{
-	12, -1000, 32, -1000, 10, 3, 43, 12, 26, -1000,
-	-1000, -1000, -1000, -1000, -1000, 7, -1000, -1000, 42, 9,
-	17, -1000, -1000, -1000, 11, -1000, -8, -1000, 3, 20,
-	34, 1, -1000, 41, -1000, -1000, -1000, -1000, -1000, -1000,
-	-1000, -1000, 5, -1000, -10, -1000, -1000, 34, -1000, -1000,
+	29, -1000, 24, -1000, -1000, -1000, 14, 31, 4, 44,
+	29, 18, 47, -1000, -1000, -1000, -1000, -1000, -1000, 9,
+	-1000, -1000, 38, -1000, -1000, -1000, -1000, -1000, 5, 1,
+	22, -1000, -1000, -1000, 13, 3, -1000, -6, -1000, 4,
+	20, -1000, -8, -1000, -1000, 37, -1000, -1000, -1000, 47,
+	-1000, -1000, -1000,
 }
 
 var nPgo = [...]int8{
-	0, 0, 56, 2, 44, 55, 54, 1, 53, 4,
-	51, 3, 50, 49, 30,
+	0, 0, 3, 6, 61, 60, 59, 1, 58, 4,
+	57, 2, 56, 29, 55, 49,
 }
 
 var nR1 = [...]int8{
-	0, 14, 13, 13, 4, 4, 6, 6, 5, 5,
-	10, 10, 9, 9, 8, 8, 7, 2, 1, 1,
-	1, 1, 12, 12, 3, 3, 3, 3, 3, 11,
-	11,
+	0, 15, 13, 13, 14, 14, 4, 4, 6, 6,
+	5, 5, 10, 10, 9, 9, 8, 8, 7, 2,
+	1, 1, 1, 1, 12, 12, 3, 3, 3, 3,
+	3, 11, 11,
 }
 
 var nR2 = [...]int8{
-	0, 1, 1, 3, 3, 6, 1, 2, 4, 5,
-	1, 3, 1, 1, 1, 3, 2, 3, 1, 1,
-	1, 1, 1, 3, 1, 1, 1, 1, 1, 3,
-	4,
+	0, 1, 1, 1, 1, 3, 3, 6, 1, 2,
+	4, 5, 1, 3, 1, 1, 1, 3, 2, 3,
+	1, 1, 1, 1, 1, 3, 1, 1, 1, 1,
+	1, 3, 4,
 }
 
 var nChk = [...]int16{
-	-1000, -14, -13, -4, -6, -5, 9, 10, 16, -3,
-	11, 12, 13, 14, 15, 4, -4, 17, 10, 18,
-	-10, -9, -2, -11, 4, 19, -8, -7, 4, 10,
-	8, 18, 19, 20, -3, 17, -9, -1, 5, 6,
-	7, -11, 4, 19, -12, -1, -7, 20, 19, -1,
+	-1000, -15, -14, -13, -4, -2, -6, 4, -5, 9,
+	10, 16, 8, -3, 11, 12, 13, 14, 15, 4,
+	-13, 17, 10, -1, 5, 6, 7, -11, 4, 18,
+	-10, -9, -2, -11, 4, 18, 19, -8, -7, 4,
+	10, 19, -12, -1, 19, 20, -3, 17, -9, 20,
+	19, -7, -1,
 }
 
 var nDef = [...]int8{
-	0, -2, 1, 2, 0, 6, 0, 0, 0, 7,
-	24, 25, 26, 27, 28, 0, 3, 4, 0, 0,
-	0, 10, 12, 13, 0, 8, 0, 14, 0, 0,
-	0, 0, 9, 0, 16, 5, 11, 17, 18, 19,
-	20, 21, 0, 29, 0, 22, 15, 0, 30, 23,
+	0, -2, 1, 4, 2, 3, 0, 0, 8, 0,
+	0, 0, 0, 9, 26, 27, 28, 29, 30, 0,
+	5, 6, 0, 19, 20, 21, 22, 23, 0, 0,
+	0, 12, 14, 15, 0, 0, 10, 0, 16, 0,
+	0, 31, 0, 24, 11, 0, 18, 7, 13, 0,
+	32, 17, 25,
 }
 
 var nTok1 = [...]int8{
@@ -502,183 +508,195 @@ ndefault:
 
 	case 1:
 		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:52
+//line ./src/parser/n.y:55
 		{
-			Ast = ast.NLang{Functions: nDollar[1].function_list}
+			Ast = ast.NLang{Statements: nDollar[1].statement_list}
 		}
 	case 2:
 		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:58
-		{
-			nVAL.function_list = []ast.Function{nDollar[1].function}
-		}
-	case 3:
-		nDollar = nS[npt-3 : npt+1]
 //line ./src/parser/n.y:61
 		{
-			nVAL.function_list = append(nDollar[1].function_list, nDollar[3].function)
+			nVAL.statement = ast.Statement{Type: ast.FunctionStatement, Value: nDollar[1].function}
+		}
+	case 3:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:64
+		{
+			nVAL.statement = ast.Statement{Type: ast.AssignmentStatement, Value: nDollar[1].assignment}
 		}
 	case 4:
-		nDollar = nS[npt-3 : npt+1]
-//line ./src/parser/n.y:67
-		{
-			nVAL.function = nDollar[1].function
-		}
-	case 5:
-		nDollar = nS[npt-6 : npt+1]
+		nDollar = nS[npt-1 : npt+1]
 //line ./src/parser/n.y:70
 		{
-			nDollar[1].function.Blocks = nDollar[4].block_list
-			nVAL.function = nDollar[1].function
+			nVAL.statement_list = []ast.Statement{nDollar[1].statement}
+		}
+	case 5:
+		nDollar = nS[npt-3 : npt+1]
+//line ./src/parser/n.y:73
+		{
+			nVAL.statement_list = append(nDollar[1].statement_list, nDollar[3].statement)
 		}
 	case 6:
-		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:76
+		nDollar = nS[npt-3 : npt+1]
+//line ./src/parser/n.y:79
 		{
 			nVAL.function = nDollar[1].function
 		}
 	case 7:
+		nDollar = nS[npt-6 : npt+1]
+//line ./src/parser/n.y:82
+		{
+			nDollar[1].function.Blocks = nDollar[4].block_list
+			nVAL.function = nDollar[1].function
+		}
+	case 8:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:88
+		{
+			nVAL.function = nDollar[1].function
+		}
+	case 9:
 		nDollar = nS[npt-2 : npt+1]
-//line ./src/parser/n.y:79
+//line ./src/parser/n.y:91
 		{
 			nDollar[1].function.Type = nDollar[2].value_type
 			nVAL.function = nDollar[1].function
 		}
-	case 8:
+	case 10:
 		nDollar = nS[npt-4 : npt+1]
-//line ./src/parser/n.y:86
+//line ./src/parser/n.y:98
 		{
 			nVAL.function = ast.Function{Name: nDollar[2].id}
 		}
-	case 9:
+	case 11:
 		nDollar = nS[npt-5 : npt+1]
-//line ./src/parser/n.y:89
+//line ./src/parser/n.y:101
 		{
 			nVAL.function = ast.Function{Name: nDollar[2].id, Args: nDollar[4].argument_list}
 		}
-	case 10:
-		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:95
-		{
-			nVAL.block_list = []ast.Block{nDollar[1].block}
-		}
-	case 11:
-		nDollar = nS[npt-3 : npt+1]
-//line ./src/parser/n.y:98
-		{
-			nVAL.block_list = append(nDollar[1].block_list, nDollar[3].block)
-		}
 	case 12:
-		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:104
-		{
-			nVAL.block = ast.Block{Type: ast.AssignmentBlock, Value: nDollar[1].assignment}
-		}
-	case 13:
 		nDollar = nS[npt-1 : npt+1]
 //line ./src/parser/n.y:107
 		{
-			nVAL.block = ast.Block{Type: ast.CallerBlock, Value: nDollar[1].caller}
+			nVAL.block_list = []ast.Block{nDollar[1].block}
+		}
+	case 13:
+		nDollar = nS[npt-3 : npt+1]
+//line ./src/parser/n.y:110
+		{
+			nVAL.block_list = append(nDollar[1].block_list, nDollar[3].block)
 		}
 	case 14:
 		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:113
-		{
-			nVAL.argument_list = []ast.Argument{nDollar[1].argument}
-		}
-	case 15:
-		nDollar = nS[npt-3 : npt+1]
 //line ./src/parser/n.y:116
 		{
-			nVAL.argument_list = append(nDollar[1].argument_list, nDollar[3].argument)
+			nVAL.block = ast.Block{Type: ast.AssignmentBlock, Value: nDollar[1].assignment}
+		}
+	case 15:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:119
+		{
+			nVAL.block = ast.Block{Type: ast.CallerBlock, Value: nDollar[1].caller}
 		}
 	case 16:
-		nDollar = nS[npt-2 : npt+1]
-//line ./src/parser/n.y:122
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:125
 		{
-			nVAL.argument = ast.Argument{Name: nDollar[1].id, Type: nDollar[2].value_type}
+			nVAL.argument_list = []ast.Argument{nDollar[1].argument}
 		}
 	case 17:
 		nDollar = nS[npt-3 : npt+1]
 //line ./src/parser/n.y:128
 		{
-			nVAL.assignment = ast.Assignment{Variable: nDollar[1].id, Value: nDollar[3].value}
+			nVAL.argument_list = append(nDollar[1].argument_list, nDollar[3].argument)
 		}
 	case 18:
-		nDollar = nS[npt-1 : npt+1]
+		nDollar = nS[npt-2 : npt+1]
 //line ./src/parser/n.y:134
 		{
-			nVAL.value = ast.Value{Type: ast.StringType, Value: nDollar[1].id}
+			nVAL.argument = ast.Argument{Name: nDollar[1].id, Type: nDollar[2].value_type}
 		}
 	case 19:
-		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:137
+		nDollar = nS[npt-3 : npt+1]
+//line ./src/parser/n.y:140
 		{
-			nVAL.value = ast.Value{Type: ast.SQLType, Value: nDollar[1].id}
+			nVAL.assignment = ast.Assignment{Variable: nDollar[1].id, Value: nDollar[3].value}
 		}
 	case 20:
 		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:140
+//line ./src/parser/n.y:146
 		{
-			nVAL.value = ast.Value{Type: ast.IntType, Value: nDollar[1].number}
+			nVAL.value = ast.Value{Type: ast.StringType, Value: nDollar[1].id}
 		}
 	case 21:
 		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:143
+//line ./src/parser/n.y:149
 		{
-			nVAL.value = ast.Value{Type: ast.CallerType, Value: nDollar[1].caller}
+			nVAL.value = ast.Value{Type: ast.SQLType, Value: nDollar[1].id}
 		}
 	case 22:
 		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:149
-		{
-			nVAL.value_list = []ast.Value{nDollar[1].value}
-		}
-	case 23:
-		nDollar = nS[npt-3 : npt+1]
 //line ./src/parser/n.y:152
 		{
-			nVAL.value_list = append(nDollar[1].value_list, nDollar[3].value)
+			nVAL.value = ast.Value{Type: ast.IntType, Value: nDollar[1].number}
+		}
+	case 23:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:155
+		{
+			nVAL.value = ast.Value{Type: ast.CallerType, Value: nDollar[1].caller}
 		}
 	case 24:
 		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:158
+//line ./src/parser/n.y:161
 		{
-			nVAL.value_type = ast.StringType
+			nVAL.value_list = []ast.Value{nDollar[1].value}
 		}
 	case 25:
-		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:159
+		nDollar = nS[npt-3 : npt+1]
+//line ./src/parser/n.y:164
 		{
-			nVAL.value_type = ast.IntType
+			nVAL.value_list = append(nDollar[1].value_list, nDollar[3].value)
 		}
 	case 26:
 		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:160
+//line ./src/parser/n.y:170
 		{
-			nVAL.value_type = ast.FloatType
+			nVAL.value_type = ast.StringType
 		}
 	case 27:
 		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:161
+//line ./src/parser/n.y:171
 		{
-			nVAL.value_type = ast.BoolType
+			nVAL.value_type = ast.IntType
 		}
 	case 28:
 		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:162
+//line ./src/parser/n.y:172
+		{
+			nVAL.value_type = ast.FloatType
+		}
+	case 29:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:173
+		{
+			nVAL.value_type = ast.BoolType
+		}
+	case 30:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:174
 		{
 			nVAL.value_type = ast.SQLType
 		}
-	case 29:
+	case 31:
 		nDollar = nS[npt-3 : npt+1]
-//line ./src/parser/n.y:166
+//line ./src/parser/n.y:178
 		{
 			nVAL.caller = ast.Caller{Name: nDollar[1].id}
 		}
-	case 30:
+	case 32:
 		nDollar = nS[npt-4 : npt+1]
-//line ./src/parser/n.y:169
+//line ./src/parser/n.y:181
 		{
 			nVAL.caller = ast.Caller{Name: nDollar[1].id, Values: nDollar[3].value_list}
 		}

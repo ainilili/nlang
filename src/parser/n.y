@@ -27,6 +27,8 @@ var Ast ast.NLang
 	block ast.Block
 	block_list []ast.Block
 	caller ast.Caller
+	statement ast.Statement
+	statement_list []ast.Statement
 }
 
 %type <value> value
@@ -39,7 +41,8 @@ var Ast ast.NLang
 %type <block_list> block_list
 %type <caller> caller
 %type <value_list> value_list
-%type <function_list> function_list
+%type <statement> statement
+%type <statement_list> statement_list
 
 %token <id> ID STRING_LITERAL SQL_LITERAL
 %token <number> INT_LITERAL
@@ -49,16 +52,25 @@ var Ast ast.NLang
 
 %%
 nlang
-	: function_list {
-		Ast = ast.NLang{Functions: $1}
+	: statement_list {
+		Ast = ast.NLang{Statements: $1}
 	}
 	;
 
-function_list
+statement
 	: function {
-		$$ = []ast.Function{$1}
+		$$ = ast.Statement{Type: ast.FunctionStatement, Value: $1}
 	}
-	| function_list EOL function {
+	| assignment {
+		$$ = ast.Statement{Type: ast.AssignmentStatement, Value: $1}
+	}
+	;
+
+statement_list
+	: statement {
+		$$ = []ast.Statement{$1}
+	}
+	| statement_list EOL statement {
 		$$ = append($1, $3)
 	}
 	;

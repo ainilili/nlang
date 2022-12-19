@@ -7,7 +7,6 @@ func hello(a int, b string){
 	print(2)
 }
 
-
 func world(a int, b string){
 	a = "abc"
 	b = "23"

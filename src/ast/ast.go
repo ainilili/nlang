@@ -2,6 +2,7 @@ package ast
 
 type ValueType int
 type BlockType int
+type StatementType int
 
 const (
 	_ ValueType = iota
@@ -15,10 +16,14 @@ const (
 	_ BlockType = iota
 	AssignmentBlock
 	CallerBlock
+
+	_ StatementType = iota
+	FunctionStatement
+	AssignmentStatement
 )
 
 type NLang struct {
-	Functions []Function
+	Statements []Statement
 }
 
 type Function struct {
@@ -51,4 +56,9 @@ type Block struct {
 type Caller struct {
 	Name   string
 	Values []Value
+}
+
+type Statement struct {
+	Type  StatementType
+	Value interface{}
 }
