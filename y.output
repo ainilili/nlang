@@ -124,33 +124,33 @@ state 13
 
 
 state 14
-	value_type:  STRING.    (26)
+	value_type:  STRING.    (27)
 
-	.  reduce 26 (src line 169)
+	.  reduce 27 (src line 172)
 
 
 state 15
-	value_type:  INT.    (27)
+	value_type:  INT.    (28)
 
-	.  reduce 27 (src line 171)
+	.  reduce 28 (src line 174)
 
 
 state 16
-	value_type:  FLOAT.    (28)
+	value_type:  FLOAT.    (29)
 
-	.  reduce 28 (src line 172)
+	.  reduce 29 (src line 175)
 
 
 state 17
-	value_type:  BOOL.    (29)
+	value_type:  BOOL.    (30)
 
-	.  reduce 29 (src line 173)
+	.  reduce 30 (src line 176)
 
 
 state 18
-	value_type:  SQL.    (30)
+	value_type:  SQL.    (31)
 
-	.  reduce 30 (src line 174)
+	.  reduce 31 (src line 177)
 
 
 state 19
@@ -215,11 +215,12 @@ state 27
 
 
 state 28
+	value:  ID.    (24)
 	caller:  ID.'(' ')' 
 	caller:  ID.'(' value_list ')' 
 
 	'('  shift 35
-	.  error
+	.  reduce 24 (src line 158)
 
 
 state 29
@@ -330,9 +331,9 @@ state 40
 	caller  goto 33
 
 state 41
-	caller:  ID '(' ')'.    (31)
+	caller:  ID '(' ')'.    (32)
 
-	.  reduce 31 (src line 177)
+	.  reduce 32 (src line 180)
 
 
 state 42
@@ -345,9 +346,9 @@ state 42
 
 
 state 43
-	value_list:  value.    (24)
+	value_list:  value.    (25)
 
-	.  reduce 24 (src line 160)
+	.  reduce 25 (src line 163)
 
 
 state 44
@@ -395,9 +396,9 @@ state 49
 	caller  goto 27
 
 state 50
-	caller:  ID '(' value_list ')'.    (32)
+	caller:  ID '(' value_list ')'.    (33)
 
-	.  reduce 32 (src line 181)
+	.  reduce 33 (src line 184)
 
 
 state 51
@@ -407,13 +408,13 @@ state 51
 
 
 state 52
-	value_list:  value_list ',' value.    (25)
+	value_list:  value_list ',' value.    (26)
 
-	.  reduce 25 (src line 164)
+	.  reduce 26 (src line 167)
 
 
 20 terminals, 16 nonterminals
-33 grammar rules, 53/16000 states
+34 grammar rules, 53/16000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
 65 working sets used
 memory: parser 37/240000

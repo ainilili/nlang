@@ -75,7 +75,7 @@ const nEofCode = 1
 const nErrCode = 2
 const nInitialStackSize = 16
 
-//line ./src/parser/n.y:185
+//line ./src/parser/n.y:188
 
 //line yacctab:1
 var nExca = [...]int8{
@@ -115,15 +115,15 @@ var nPgo = [...]int8{
 var nR1 = [...]int8{
 	0, 15, 13, 13, 14, 14, 4, 4, 6, 6,
 	5, 5, 10, 10, 9, 9, 8, 8, 7, 2,
-	1, 1, 1, 1, 12, 12, 3, 3, 3, 3,
-	3, 11, 11,
+	1, 1, 1, 1, 1, 12, 12, 3, 3, 3,
+	3, 3, 11, 11,
 }
 
 var nR2 = [...]int8{
 	0, 1, 1, 1, 1, 3, 3, 6, 1, 2,
 	4, 5, 1, 3, 1, 1, 1, 3, 2, 3,
-	1, 1, 1, 1, 1, 3, 1, 1, 1, 1,
-	1, 3, 4,
+	1, 1, 1, 1, 1, 1, 3, 1, 1, 1,
+	1, 1, 3, 4,
 }
 
 var nChk = [...]int16{
@@ -137,11 +137,11 @@ var nChk = [...]int16{
 
 var nDef = [...]int8{
 	0, -2, 1, 4, 2, 3, 0, 0, 8, 0,
-	0, 0, 0, 9, 26, 27, 28, 29, 30, 0,
-	5, 6, 0, 19, 20, 21, 22, 23, 0, 0,
+	0, 0, 0, 9, 27, 28, 29, 30, 31, 0,
+	5, 6, 0, 19, 20, 21, 22, 23, 24, 0,
 	0, 12, 14, 15, 0, 0, 10, 0, 16, 0,
-	0, 31, 0, 24, 11, 0, 18, 7, 13, 0,
-	32, 17, 25,
+	0, 32, 0, 25, 11, 0, 18, 7, 13, 0,
+	33, 17, 26,
 }
 
 var nTok1 = [...]int8{
@@ -648,55 +648,61 @@ ndefault:
 		}
 	case 24:
 		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:161
+//line ./src/parser/n.y:158
+		{
+			nVAL.value = ast.Value{Type: ast.VariableType, Value: nDollar[1].id}
+		}
+	case 25:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:164
 		{
 			nVAL.value_list = []ast.Value{nDollar[1].value}
 		}
-	case 25:
+	case 26:
 		nDollar = nS[npt-3 : npt+1]
-//line ./src/parser/n.y:164
+//line ./src/parser/n.y:167
 		{
 			nVAL.value_list = append(nDollar[1].value_list, nDollar[3].value)
 		}
-	case 26:
-		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:170
-		{
-			nVAL.value_type = ast.StringType
-		}
 	case 27:
-		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:171
-		{
-			nVAL.value_type = ast.IntType
-		}
-	case 28:
-		nDollar = nS[npt-1 : npt+1]
-//line ./src/parser/n.y:172
-		{
-			nVAL.value_type = ast.FloatType
-		}
-	case 29:
 		nDollar = nS[npt-1 : npt+1]
 //line ./src/parser/n.y:173
 		{
-			nVAL.value_type = ast.BoolType
+			nVAL.value_type = ast.StringType
 		}
-	case 30:
+	case 28:
 		nDollar = nS[npt-1 : npt+1]
 //line ./src/parser/n.y:174
 		{
-			nVAL.value_type = ast.SQLType
+			nVAL.value_type = ast.IntType
+		}
+	case 29:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:175
+		{
+			nVAL.value_type = ast.FloatType
+		}
+	case 30:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:176
+		{
+			nVAL.value_type = ast.BoolType
 		}
 	case 31:
+		nDollar = nS[npt-1 : npt+1]
+//line ./src/parser/n.y:177
+		{
+			nVAL.value_type = ast.SQLType
+		}
+	case 32:
 		nDollar = nS[npt-3 : npt+1]
-//line ./src/parser/n.y:178
+//line ./src/parser/n.y:181
 		{
 			nVAL.caller = ast.Caller{Name: nDollar[1].id}
 		}
-	case 32:
+	case 33:
 		nDollar = nS[npt-4 : npt+1]
-//line ./src/parser/n.y:181
+//line ./src/parser/n.y:184
 		{
 			nVAL.caller = ast.Caller{Name: nDollar[1].id, Values: nDollar[3].value_list}
 		}

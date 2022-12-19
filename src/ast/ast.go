@@ -12,6 +12,7 @@ const (
 	BoolType
 	SQLType
 	CallerType
+	VariableType
 
 	_ BlockType = iota
 	AssignmentBlock

@@ -155,6 +155,9 @@ value
 	| caller {
 		$$ = ast.Value{Type: ast.CallerType, Value: $1}
 	}
+	| ID {
+		$$ = ast.Value{Type: ast.VariableType, Value: $1}
+	}
 	;
 
 value_list
